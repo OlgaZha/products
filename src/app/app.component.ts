@@ -11,23 +11,5 @@ import { ProductsComponent } from './components/products/products.component';
   standalone: false
 })
 export class AppComponent {
-  title = 'Products';
-  products: Array<Product> = []
-  product: Product | null = null
-  cardCount: number = 0
-  constructor(productService: ProductsService) {
-    // productService?.load(1)?.subscribe((product: Product | null)=>{
-    //   debugger
-    //   if(product) {
-    //     this.product = product
-    //   }
-  // })
-    productService?.loadAll()?.subscribe((products: Product[]) => {
-      this.products = products;
-    })
-  }
-  getCount() {
-    this.cardCount++
-  }
 
 }

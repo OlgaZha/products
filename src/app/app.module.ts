@@ -6,10 +6,14 @@ import { AppComponent } from './app.component';
 import { ProductsComponent } from './components/products/products.component';
 
 import { ProductsService } from './services/products.service';
+import {HomeComponent} from './components/home/home.component';
+import {AppRoutingModule} from './app-routing.module';
+import {ManagerComponent} from './components/manager/manager.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
-  declarations: [AppComponent, ProductsComponent, ProductComponent],
-  imports: [BrowserModule, HttpClientModule],
+  declarations: [AppComponent, ProductsComponent, ProductComponent, HomeComponent, ManagerComponent],
+  imports: [BrowserModule, HttpClientModule, AppRoutingModule, FormsModule, ReactiveFormsModule],
   providers: [ProductsService],
   bootstrap: [AppComponent]
 })

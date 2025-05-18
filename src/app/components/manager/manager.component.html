@@ -1,0 +1,35 @@
+<div class="card-container">
+  <div *ngFor="let product of products">
+    <div class="product-card">
+      <h1>{{product?.title}}</h1>
+      <p>Price: {{product?.price}}$</p>
+      <button (click)="deleteProduct(product.id)">Delete</button>
+    </div>
+  </div>
+</div>
+<!--<form #productForm="ngForm" (ngSubmit)="addProduct()" class="productForm">-->
+<!--  <label>Title: </label>-->
+<!--  <input name="productTitle" [(ngModel)]="newProduct.title">-->
+<!--  <label>Price: </label>-->
+<!--  <input name="productPrice" [(ngModel)]="newProduct.price">-->
+<!--  <label>Description: </label>-->
+<!--  <input name="productDescription" [(ngModel)]="newProduct.description">-->
+<!--  <label>Image: </label>-->
+<!--  <input name="productImage" [(ngModel)]="newProduct.image">-->
+<!--  <label>Category: </label>-->
+<!--  <input required name="productCategory" [(ngModel)]="newProduct.category">-->
+<!--  <button type="submit" [disabled]="productForm.invalid">Add product</button>-->
+<!--</form>-->
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <label>Title: </label>
+  <input formControlName="title">
+  <label>Price: </label>
+  <input formControlName="price">
+  <label>Description: </label>
+  <input formControlName="description">
+  <label>Image: </label>
+  <input formControlName="image">
+  <label>Category: </label>
+  <input formControlName="category">
+  <button type="submit">Add product</button>
+</form>

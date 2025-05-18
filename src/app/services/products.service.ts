@@ -11,7 +11,7 @@ let API = 'https://fakestoreapi.com/products/'
 })
 
 export class ProductsService {
-
+private products: Product[] = [];
   constructor(private http: HttpClient) { }
   add(product: Product) { //create
     products.push(product)
@@ -25,5 +25,11 @@ export class ProductsService {
   }
   loadAll(): Observable<Product[]> {
     return this.http.get<Product[]>(API)
+  }
+  setProducts(products: Product[]) {
+    this.products = products;
+  }
+  getProducts() {
+    return this.products;
   }
 }
