@@ -23,6 +23,5 @@ isExpensive():boolean {
 }
 counterClicked() {
   this.cartCounter.emit();
-}
-
+  }
 }

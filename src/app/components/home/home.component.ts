@@ -29,5 +29,7 @@ export class HomeComponent implements OnInit{
   goToManage() {
     this.router.navigate(['/manager']);
   }
-
+  goToUsers() {
+    this.router.navigate(['/users']);
+  }
 }
