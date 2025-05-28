@@ -14,6 +14,9 @@
   <div>
     <app-user></app-user>
     <app-products [myProducts]="products" (cartCounter)="getCount()"></app-products>
+    <div *ngFor="let log of getLogs">
+        <p>{{log}}</p>
+    </div>
   </div>
 
 </div>

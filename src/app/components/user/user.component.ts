@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {User} from '../../models/user.model';
 import {UserService} from '../../services/user.service';
 
@@ -9,15 +9,11 @@ import {UserService} from '../../services/user.service';
   standalone: false
 })
 export class UserComponent implements  OnInit {
-  user: User = {} as User;
+  @Input() user: User = {} as User;
   constructor(private userService: UserService) {
   }
 
   ngOnInit(): void {
-        this.getUser()
-    }
 
-  getUser(){
-    this.userService.getUser(1).subscribe(user => {this.user = user});
-  }
+    }
 }

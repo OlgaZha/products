@@ -1,5 +1,7 @@
 <div>
-  <div *ngFor="let item of users" >{{item.name}}</div>
+  <div *ngFor="let item of users">
+    <app-user [user]="item"></app-user>
+  </div>
 </div>
 <form [formGroup]="form" (ngSubmit)="addUser()">
   <label>Name: </label>
@@ -10,11 +12,11 @@
   <input formControlName="email">
   <label>Phone: </label>
   <input formControlName="phone">
-<!--  <div formArrayName="features">-->
-<!--    <div *ngFor="let f of features.controls; let i = index">-->
-<!--      <input [formControlName]="i">-->
-<!--      <button (click)="addFeature()">Add feature</button>-->
-<!--    </div>-->
-<!--  </div>-->
+  <div formArrayName="jobs">
+    <div *ngFor="let job of jobs.controls; let i = index">
+      <input [formControlName]="i">
+      <button (click)="addJobs()">Add job</button>
+    </div>
+  </div>
   <button type="submit" [disabled]="form.invalid">Add user</button>
 </form>

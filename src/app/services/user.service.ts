@@ -12,10 +12,10 @@ let API = 'https://jsonplaceholder.typicode.com/users'
 export class UserService {
   private users: User[] = [];
   constructor(private http: HttpClient) {}
-  addUsers(user: User) {
+  addUser(user: User) {
     users.push(user);
   }
-  loadUsers(id: number): Observable<User|null> {
+  loadUser(id: number): Observable<User|null> {
     if(id) {
       return this.http.get<User>(API + id);
     }
@@ -26,11 +26,5 @@ export class UserService {
   }
   setUsers(users: User[]) {
     this.users = users;
-  }
-  getUsers() {
-    return this.http.get<User[]>(API)
-  }
-  getUser(id: number): Observable<User> {
-    return this.http.get<User>(API + '/' +id);
   }
 }

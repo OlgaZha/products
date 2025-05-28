@@ -1,7 +1,8 @@
-import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {User} from '../../models/user.model';
 import {UserService} from '../../services/user.service';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {LoggerService} from '../../services/logger.service';
 
 @Component({
   selector: 'app-users',
@@ -19,21 +20,22 @@ export class UsersComponent implements  OnInit {
   form: FormGroup;
   users: User[] = [];
   defaultId = 1;
-  constructor(private userService: UserService, private fb: FormBuilder) {
+  constructor(private userService: UserService, private fb: FormBuilder, private _loggerService: LoggerService) {
     this.form = this.fb.group({
-      name: ['', Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)],
+      name: ['', Validators.required],
       username: ['', Validators.required],
-      email: ['', Validators.required, Validators.email],
+      email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
+      jobs: this.fb.array([this.fb.control('', [Validators.required])])
     })
   }
 
-  get features(): FormArray {
-    return (this.form.get('features') as FormArray)
+  get jobs(): FormArray {
+    return (this.form.get('jobs') as FormArray)
   }
 
-  addFeature() {
-    (this.form.get('features') as FormArray).push(this.fb.control(''))
+  addJobs() {
+    (this.form.get('jobs') as FormArray).push(this.fb.control('', Validators.required))
   }
 
   addUser() {
@@ -52,6 +54,8 @@ export class UsersComponent implements  OnInit {
         }
         this.users.push(newUser);
         this.form.reset();
+        this.jobs.clear();
+        this._loggerService.logs.push(`User added product: ${this.addUser.name}`);
       }
     }
   }
@@ -60,6 +64,6 @@ export class UsersComponent implements  OnInit {
   this.getAllUsers()
     }
   getAllUsers(): void {
-    this.userService.getUsers().subscribe(users => {this.users = users});
+    this.userService.loadAllUsers().subscribe(users => {this.users = users});
   }
 }

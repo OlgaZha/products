@@ -3,6 +3,7 @@ import {Product} from '../../models/product.model';
 import {ProductsService} from '../../services/products.service';
 import {FormBuilder, FormControl, FormGroup, Validators, FormArray} from '@angular/forms';
 import {forbiddenName} from '../../validators';
+import {LoggerService} from '../../services/logger.service';
 
 @Component({
   selector: 'app-manager',
@@ -22,7 +23,7 @@ export class ManagerComponent implements OnInit {
   defaultId = 1;
   form: FormGroup;
 
-  constructor(private service: ProductsService, private fb: FormBuilder) {
+  constructor(private service: ProductsService, private fb: FormBuilder, private _loggerService: LoggerService) {
     this.form = this.fb.group({
       title: ['', [Validators.required, forbiddenName('test')]],
       price: new FormControl('', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]),
@@ -59,11 +60,13 @@ export class ManagerComponent implements OnInit {
         }
         this.products.push(newProduct);
         this.form.reset();
+        this._loggerService.logs.push(`User added product: ${this.newProduct.title}`);
       }
     }
   }
   deleteProduct(id: number) {
     this.products = this.products.filter(product => product.id !== id)
+    this._loggerService.logs.push(`User removed product ${this.newProduct.title}`);
   }
 
   addFeature() {
