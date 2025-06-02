@@ -16,9 +16,8 @@ private products: Product[] = [];
   add(product: Product) { //create
     products.push(product)
   }
-  load(id: number): Observable<Product|null> { //read
+  load(id: number|null): Observable<Product|null> { //read
     if(id) {
-      debugger
       return this.http.get<Product>(API + id)
     }
     return of(null)

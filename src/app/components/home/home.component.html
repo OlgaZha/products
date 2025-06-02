@@ -11,6 +11,7 @@
     </div>
   </header>
   <p>Cart: {{cardCount}}</p>
+  <app-message></app-message>
   <div>
     <app-user></app-user>
     <app-products [myProducts]="products" (cartCounter)="getCount()"></app-products>

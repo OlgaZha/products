@@ -12,11 +12,13 @@ import {ManagerComponent} from './components/manager/manager.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {UsersComponent} from './components/users/users.component';
 import {UserComponent} from './components/user/user.component';
+import {MessageComponent} from './components/message/message.component';
+import {MessageLocalService} from './services/message-local.service';
 
 @NgModule({
-  declarations: [AppComponent, ProductsComponent, ProductComponent, HomeComponent, ManagerComponent, UsersComponent, UserComponent],
+  declarations: [AppComponent, ProductsComponent, ProductComponent, HomeComponent, ManagerComponent, UsersComponent, UserComponent, MessageComponent],
   imports: [BrowserModule, HttpClientModule, AppRoutingModule, FormsModule, ReactiveFormsModule],
-  providers: [ProductsService],
+  providers: [ProductsService, MessageLocalService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

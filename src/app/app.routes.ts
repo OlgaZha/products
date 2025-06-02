@@ -7,4 +7,8 @@ export const routes: Routes = [
   { path: '', component: HomeComponent},
   { path: 'manager', component: ManagerComponent},
   { path: 'users', component: UsersComponent},
+  { path: 'product/:id',
+  loadComponent: () =>
+    import('./components/product-details/product-details.component').then(c => c.ProductDetailsComponent)
+  },
 ];
