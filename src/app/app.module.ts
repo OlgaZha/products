@@ -1,5 +1,5 @@
 import { ProductComponent } from './components/product/product.component';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
@@ -13,12 +13,12 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {UsersComponent} from './components/users/users.component';
 import {UserComponent} from './components/user/user.component';
 import {MessageComponent} from './components/message/message.component';
-import {MessageLocalService} from './services/message-local.service';
+import {ProductsAuthInterceptor} from './interceptors/products-auth.interceptor';
 
 @NgModule({
-  declarations: [AppComponent, ProductsComponent, ProductComponent, HomeComponent, ManagerComponent, UsersComponent, UserComponent, MessageComponent],
-  imports: [BrowserModule, HttpClientModule, AppRoutingModule, FormsModule, ReactiveFormsModule],
-  providers: [ProductsService, MessageLocalService],
+  declarations: [AppComponent, ProductsComponent, ProductComponent, HomeComponent, ManagerComponent, UsersComponent, UserComponent],
+  imports: [BrowserModule, HttpClientModule, AppRoutingModule, FormsModule, ReactiveFormsModule, MessageComponent],
+  providers: [ProductsService, {provide: HTTP_INTERCEPTORS, useClass: ProductsAuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

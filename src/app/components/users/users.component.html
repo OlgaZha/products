@@ -1,6 +1,10 @@
+<input [formControl]="searchControl" placeholder="Searching">
 <div>
-  <div *ngFor="let item of users">
-    <app-user [user]="item"></app-user>
+    <div *ngFor="let item of users">
+      <app-user [user]="item"></app-user>
+    </div>
+  <div *ngFor="let filteredUser of filteredUsers">
+    <app-user [user]="filteredUser"></app-user>
   </div>
 </div>
 <form [formGroup]="form" (ngSubmit)="addUser()">

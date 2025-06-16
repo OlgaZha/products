@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 import {MessageLocalService} from '../../services/message-local.service';
 import {MessageRootService} from '../../services/message-root.service';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-message',
   templateUrl: './message.component.html',
   styleUrl: './message.component.scss',
-  standalone: false
+  providers: [MessageLocalService],
+  imports: [FormsModule]
 })
 export class MessageComponent {
-  newLocalMessage: string = '';
-  newMessageInRoot: string = '';
   constructor(private messageLocal: MessageLocalService, private messageRoot: MessageRootService) {
   }
   get messageLoc() {
@@ -19,10 +19,11 @@ export class MessageComponent {
   get messageInRoot() {
     return this.messageRoot.message;
   }
-  updateLocalMessage() {
-    this.messageLocal.message = this.newLocalMessage;
+
+  set messageLoc(value: string) {
+    this.messageLocal.message = value;
   }
-  updateRootMessage() {
-    this.messageRoot.message = this.newMessageInRoot;
+  set messageInRoot(value: string) {
+    this.messageRoot.message = value;
   }
 }

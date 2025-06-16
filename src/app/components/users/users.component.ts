@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from '../../models/user.model';
 import {UserService} from '../../services/user.service';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {LoggerService} from '../../services/logger.service';
+import {debounceTime, distinctUntilChanged, filter, map, Observable, switchMap, tap} from 'rxjs';
 
 @Component({
   selector: 'app-users',
@@ -20,6 +21,8 @@ export class UsersComponent implements  OnInit {
   form: FormGroup;
   users: User[] = [];
   defaultId = 1;
+  filteredUsers: User[] = [];
+  searchControl = new FormControl('');
   constructor(private userService: UserService, private fb: FormBuilder, private _loggerService: LoggerService) {
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -61,9 +64,37 @@ export class UsersComponent implements  OnInit {
   }
 
   ngOnInit(): void {
-  this.getAllUsers()
+    this.getAllUsers()
+    this.getUsersById();
+    this.searchControl.valueChanges.pipe(
+      filter((searchValue: string | null) => !!searchValue && searchValue.length > 2),
+      debounceTime(300),
+      distinctUntilChanged(),
+      map((searchValue: string | null) => {
+        return !!searchValue && searchValue.toLowerCase()
+      }),
+      map((searchValue: any) => {
+        return this.users.filter(user => user.name.toLowerCase().includes(searchValue))
+      }
+    )).subscribe(results => {
+      this.filteredUsers = results;
+    })
     }
   getAllUsers(): void {
     this.userService.loadAllUsers().subscribe(users => {this.users = users});
   }
+
+  getUsersById(): void {
+    this.userService.loadAllUsers().pipe(
+      map((users: User[]) => {
+        const filter1 = users.filter(user => user.id! > 0 && user.id! <= 5);
+        const filter2 = users.filter(user => user.id! > 5 && user.id! <= 10);
+        return [...filter1, ...filter2];
+      }
+      )
+    ).subscribe(users => {
+      console.log(users)});
+  }
+
+  protected readonly filter = filter;
 }
