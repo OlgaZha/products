@@ -3,7 +3,18 @@ import {User} from '../../models/user.model';
 import {UserService} from '../../services/user.service';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {LoggerService} from '../../services/logger.service';
-import {debounceTime, distinctUntilChanged, filter, map, Observable, switchMap, tap} from 'rxjs';
+import {
+  combineLatest,
+  concat,
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  Observable,
+  startWith,
+  switchMap,
+  tap
+} from 'rxjs';
 
 @Component({
   selector: 'app-users',
@@ -12,6 +23,9 @@ import {debounceTime, distinctUntilChanged, filter, map, Observable, switchMap, 
   standalone: false
 })
 export class UsersComponent implements  OnInit {
+  companyControl = new FormControl('');
+  cityControl = new FormControl('');
+
   newUser ={
     name: '',
     username: '',
@@ -65,7 +79,12 @@ export class UsersComponent implements  OnInit {
 
   ngOnInit(): void {
     this.getAllUsers()
-    this.getUsersById();
+    this.companyControl.setValue('', { emitEvent: true });
+    this.cityControl.setValue('', { emitEvent: true });
+    // this.getUsersById();
+    // this.useConcatOperator();
+    this.useCombineLatest();
+    this.useCombineLatestWithCompanyAndCity();
     this.searchControl.valueChanges.pipe(
       filter((searchValue: string | null) => !!searchValue && searchValue.length > 2),
       debounceTime(300),
@@ -96,5 +115,50 @@ export class UsersComponent implements  OnInit {
       console.log(users)});
   }
 
+  useConcatOperator(): void {
+    const obs1 = this.userService.getUsersByIds([1,2,3,4,5]);
+    const obs2 = this.userService.getUsersByIds([6,7,8,9,10]);
+    concat(obs1, obs2).subscribe(users => {
+      console.log(users)
+    })
+  }
+
+  useCombineLatest(): void {
+    combineLatest([this.userService.loadAllUsers(), this.userService.loadAllPosts()]).pipe(
+      map(([users, posts]) => {
+        return users.map((user: User) => {
+          const userPosts = posts.filter(post => post.userId === user.id)
+          return {
+            ...user, postsCount: userPosts.length
+          }
+        })
+    })
+    ).subscribe(results => {
+      console.log(results)
+    })
+  }
+
+  useCombineLatestWithCompanyAndCity(): void {
+    combineLatest([
+      this.companyControl.valueChanges.pipe(startWith('')),
+      this.cityControl.valueChanges.pipe(startWith(''))
+    ]).pipe(
+      debounceTime(300),
+      map(([company, city]) => {
+        const companyLower = (company || '').toLowerCase();
+        const cityLower = (city || '').toLowerCase();
+
+        return this.users.filter(user =>
+          user.company?.name?.toLowerCase().includes(companyLower) &&
+          user.address?.city?.toLowerCase().includes(cityLower)
+        );
+      })
+    ).subscribe(results => {
+      this.filteredUsers = results;
+      console.log(results, 'filtered users');
+    });
+  }
+
   protected readonly filter = filter;
 }
+
