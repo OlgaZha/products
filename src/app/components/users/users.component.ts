@@ -5,16 +5,17 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angul
 import {LoggerService} from '../../services/logger.service';
 import {
   combineLatest,
-  concat,
+  concat, concatMap,
   debounceTime,
   distinctUntilChanged,
-  filter,
-  map,
+  filter, forkJoin, from,
+  map, merge, mergeMap,
   Observable,
   startWith,
   switchMap,
   tap
 } from 'rxjs';
+import {log} from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
 
 @Component({
   selector: 'app-users',
@@ -25,7 +26,9 @@ import {
 export class UsersComponent implements  OnInit {
   companyControl = new FormControl('');
   cityControl = new FormControl('');
-
+  users$!: Observable<User[]>;
+  companies$!: Observable<any[]>;
+  cities$!: Observable<any[]>;
   newUser ={
     name: '',
     username: '',
@@ -36,7 +39,8 @@ export class UsersComponent implements  OnInit {
   users: User[] = [];
   defaultId = 1;
   filteredUsers: User[] = [];
-  searchControl = new FormControl('');
+  result: string = '';
+  searchControl:any = new FormControl('');
   constructor(private userService: UserService, private fb: FormBuilder, private _loggerService: LoggerService) {
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -83,24 +87,40 @@ export class UsersComponent implements  OnInit {
     this.cityControl.setValue('', { emitEvent: true });
     // this.getUsersById();
     // this.useConcatOperator();
-    this.useCombineLatest();
-    this.useCombineLatestWithCompanyAndCity();
+    // this.useCombineLatest();
+    this.users$ = this.userService.loadAllUsers();
+    this.companies$ = this.users$.pipe(
+      map(users => [...new Set(users.map(user => user.company?.name))])
+    )
+    this.cities$ = this.users$.pipe(
+      map(users => [...new Set(users.map(user => user.address?.city))])
+    )
+    // this.useCombineLatestWithCompanyAndCity();
+    // this.useMerge();
+    // this.useConcatMap();
+    this.getFullName();
+    this.useMergeMap();
+    this.compareUsers(1,2)
     this.searchControl.valueChanges.pipe(
       filter((searchValue: string | null) => !!searchValue && searchValue.length > 2),
       debounceTime(300),
       distinctUntilChanged(),
-      map((searchValue: string | null) => {
-        return !!searchValue && searchValue.toLowerCase()
+      map((searchValue: string) => {
+        if(!searchValue && searchValue?.length < 3) {
+          return this.users;
+        }
+        const filteredValue =  this.users.filter(user => user.name.toLowerCase().includes(searchValue))
+        return filteredValue.length > 0 ? filteredValue : []
       }),
-      map((searchValue: any) => {
-        return this.users.filter(user => user.name.toLowerCase().includes(searchValue))
-      }
-    )).subscribe(results => {
+    ).subscribe((results: any[]) => {
       this.filteredUsers = results;
     })
     }
   getAllUsers(): void {
-    this.userService.loadAllUsers().subscribe(users => {this.users = users});
+    this.userService.loadAllUsers().subscribe(users => {
+      this.users = users;
+      this.filteredUsers = this.users;
+    });
   }
 
   getUsersById(): void {
@@ -140,24 +160,69 @@ export class UsersComponent implements  OnInit {
 
   useCombineLatestWithCompanyAndCity(): void {
     combineLatest([
+      this.users$,
       this.companyControl.valueChanges.pipe(startWith('')),
       this.cityControl.valueChanges.pipe(startWith(''))
     ]).pipe(
       debounceTime(300),
-      map(([company, city]) => {
-        const companyLower = (company || '').toLowerCase();
-        const cityLower = (city || '').toLowerCase();
-
-        return this.users.filter(user =>
-          user.company?.name?.toLowerCase().includes(companyLower) &&
-          user.address?.city?.toLowerCase().includes(cityLower)
+      map(([users, companyName, cityName]) => {
+        debugger
+        return users.filter(user =>
+          user.company?.name === companyName &&
+          user.address?.city ===  cityName
         );
       })
     ).subscribe(results => {
+      debugger
       this.filteredUsers = results;
       console.log(results, 'filtered users');
     });
   }
+
+  useMerge() {
+    const obs1 = this.userService.getUsersByIds([1,2,3,4,5]);
+    const obs2 = this.userService.getUsersByIds([6,7,8,9,10]);
+    merge(obs1, obs2).subscribe(users => {
+      console.log(users)
+    })
+  }
+
+  useConcatMap() {
+    const userIds = [1,2,3]
+    from(userIds).pipe(concatMap(id => this.userService.loadUser(id))
+    ).subscribe(result => console.log(result))
+  }
+
+  getFullName() {
+    this.users$.pipe(
+      map(users => users.map(user => user.name))
+    ).subscribe(result => {
+      console.log(result);
+    });
+  }
+
+  useMergeMap() {
+    const userIds = [1,2,3];
+    from(userIds).pipe(mergeMap(id => this.userService.loadUser(id))
+    ).subscribe(result => console.log(result));
+  }
+
+  compareUsers(user1Id: number, user2Id: number) {
+    forkJoin({
+      user1Posts: this.userService.getUsersByIds([user1Id]),
+      user2Posts: this.userService.getUsersByIds([user2Id])
+    }).subscribe(({user1Posts, user2Posts}) => {
+      const count1 = user1Posts.length;
+      const count2 = user2Posts.length;
+      this.result = count1 > count2 ?
+        `User ${user1Id} has more posts (${count1} > ${count2})`
+        : count1 < count2
+        ? `User ${user2Id} has more posts (${count2} > ${count1})`
+          : `Users have the same number of posts (${count1})`
+      console.log(this.result)
+    })
+  }
+
 
   protected readonly filter = filter;
 }

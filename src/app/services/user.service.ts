@@ -18,7 +18,7 @@ export class UserService {
   }
   loadUser(id: number): Observable<User|null> {
     if(id) {
-      return this.http.get<User>(API + id);
+      return this.http.get<User>(API + '/' + id);
     }
     return of(null);
   }

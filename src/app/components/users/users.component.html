@@ -1,34 +1,44 @@
-<label>Company:
-  <input [formControl]="companyControl" placeholder="Company Name">
-</label>
+<!--<label>Company:-->
+<!--  <select [formControl]="companyControl">-->
+<!--    <option [value]="company" *ngFor="let company of companies$ | async">{{company}}</option>-->
+<!--  </select>-->
+<!--</label>-->
 
-<label>City:
-  <input [formControl]="cityControl" placeholder="City">
-</label>
+<!--<label>City:-->
+<!--  <select [formControl]="cityControl">-->
+<!--    <option [value]="city" *ngFor="let city of cities$ | async">{{city}}</option>-->
+<!--  </select>-->
+<!--</label>-->
+<!--<div *ngFor="let filteredUser of filteredUsers">-->
+<!--  <app-user [user]="filteredUser"></app-user>-->
+<!--</div>-->
+
 
 <input [formControl]="searchControl" placeholder="Searching">
 <div>
-    <div *ngFor="let item of users">
-      <app-user [user]="item"></app-user>
-    </div>
+<!--    <div *ngFor="let item of users">-->
+<!--      <app-user [user]="item"></app-user>-->
+<!--    </div>-->
   <div *ngFor="let filteredUser of filteredUsers">
     <app-user [user]="filteredUser"></app-user>
   </div>
 </div>
-<form [formGroup]="form" (ngSubmit)="addUser()">
-  <label>Name: </label>
-  <input formControlName="name">
-  <label>User Name: </label>
-  <input formControlName="username">
-  <label>Email: </label>
-  <input formControlName="email">
-  <label>Phone: </label>
-  <input formControlName="phone">
-  <div formArrayName="jobs">
-    <div *ngFor="let job of jobs.controls; let i = index">
-      <input [formControlName]="i">
-      <button (click)="addJobs()">Add job</button>
-    </div>
-  </div>
-  <button type="submit" [disabled]="form.invalid">Add user</button>
-</form>
+
+
+<!--<form [formGroup]="form" (ngSubmit)="addUser()">-->
+<!--  <label>Name: </label>-->
+<!--  <input formControlName="name">-->
+<!--  <label>User Name: </label>-->
+<!--  <input formControlName="username">-->
+<!--  <label>Email: </label>-->
+<!--  <input formControlName="email">-->
+<!--  <label>Phone: </label>-->
+<!--  <input formControlName="phone">-->
+<!--  <div formArrayName="jobs">-->
+<!--    <div *ngFor="let job of jobs.controls; let i = index">-->
+<!--      <input [formControlName]="i">-->
+<!--      <button (click)="addJobs()">Add job</button>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <button type="submit" [disabled]="form.invalid">Add user</button>-->
+<!--</form>-->
