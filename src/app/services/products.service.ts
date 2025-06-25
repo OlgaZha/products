@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Product } from '../models/product.model';
-import { Observable, of } from 'rxjs';
+import {forkJoin, Observable, of} from 'rxjs';
+import {User} from '../models/user.model';
 
 let products = [];
 let API = 'https://fakestoreapi.com/products/'
@@ -30,5 +31,8 @@ private products: Product[] = [];
   }
   getProducts() {
     return this.products;
+  }
+  getProductByCategory(): Observable<string[]> {
+    return this.http.get<string[]>(API + 'category')
   }
 }
