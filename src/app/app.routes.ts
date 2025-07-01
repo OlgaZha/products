@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import {HomeComponent} from './components/home/home.component';
 import {ManagerComponent} from './components/manager/manager.component';
 import {UsersComponent} from './components/users/users.component';
+import {EditUserComponent} from './components/edit-user/edit-user.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent},
@@ -11,4 +12,5 @@ export const routes: Routes = [
   loadComponent: () =>
     import('./components/product-details/product-details.component').then(c => c.ProductDetailsComponent)
   },
+  { path: 'users/:id', component: EditUserComponent},
 ];

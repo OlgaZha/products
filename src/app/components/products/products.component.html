@@ -1,8 +1,15 @@
 <label>Category:
   <select [formControl]="categoryControl">
-    <option [value]="category" *ngFor="let category of products$ | async">{{category}}</option>
+    <option value="" disabled>--choose option--</option>
+    <option [value]="category" *ngFor="let category of categories">{{category}}</option>
   </select>
 </label>
+
+<label></label>
+<input type="text" placeholder="search product by category" [formControl]="searchControl">
+<ul>
+  <li *ngFor="let product of products$ | async" >{{product.title}}</li>
+</ul>
 
 <div class="products-list">
     <app-product *ngFor="let item of myProducts" [product]="item" (cartCounter)="getCounterValue()"></app-product>

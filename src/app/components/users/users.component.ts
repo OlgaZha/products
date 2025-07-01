@@ -8,7 +8,7 @@ import {
   distinctUntilChanged,
   filter,
   map,
-  Observable,
+  Observable, of, switchMap,
 } from 'rxjs';
 import {log} from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
 import {RxjsOperatorsUtilsService} from '../../services/rxjs-operators-utils.service';
@@ -22,6 +22,7 @@ import {RxjsOperatorsUtilsService} from '../../services/rxjs-operators-utils.ser
 export class UsersComponent implements  OnInit {
   companyControl = new FormControl('');
   cityControl = new FormControl('');
+  usersControl = new FormControl('')
   users$!: Observable<User[]>;
   companies$!: Observable<any[]>;
   cities$!: Observable<any[]>;
@@ -90,7 +91,7 @@ export class UsersComponent implements  OnInit {
     )
     this._rxjsService.getFullName(this.users$);
     this._rxjsService.useMergeMap();
-    this._rxjsService.compareUsers(1,2)
+    this._rxjsService.compareUsers(1,2);
     this.searchControl.valueChanges.pipe(
       filter((searchValue: string | null) => !!searchValue && searchValue.length > 2),
       debounceTime(300),
@@ -112,5 +113,11 @@ export class UsersComponent implements  OnInit {
       this.filteredUsers = this.users;
     });
   }
+
+  // onUserControlValueChanged() {
+  //   this.usersControl.valueChanges.pipe(
+  //     switchMap((category: string|null) => category ? this.userService.loadAllUsers(category) : of())
+  //   ).subscribe(result => this.users = result);
+  // }
 }
 

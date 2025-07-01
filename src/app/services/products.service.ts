@@ -32,7 +32,10 @@ private products: Product[] = [];
   getProducts() {
     return this.products;
   }
-  getProductByCategory(): Observable<string[]> {
-    return this.http.get<string[]>(API + 'category')
+  getCategories(): Observable<string[]> {
+    return this.http.get<string[]>(API + 'categories')
+  }
+  getProductsByCategory(category: string): Observable<Product[]> {
+    return this.http.get<Product[]>(API + '/category/' + category )
   }
 }

@@ -36,5 +36,8 @@ export class UserService {
     const requests = ids.map(id => this.http.get<User>(API + '/' + id));
     return forkJoin(requests);
   }
+  updateUser(user: User): Observable<User> {
+    return this.http.put<User>(API + '/' + user.id, user);
+  }
 
 }

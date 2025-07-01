@@ -1,0 +1,21 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSave()">
+  <label>
+    Name:
+    <input formControlName="name" />
+  </label>
+  <div *ngIf="formGroup.get('name')?.invalid && formGroup.get('name')?.touched">Name is required</div>
+
+  <label>
+    Email:
+    <input formControlName="email" />
+  </label>
+  <div *ngIf="formGroup.get('email')?.invalid && formGroup.get('email')?.touched">Valid email is required</div>
+
+  <label>
+    Phone:
+    <input formControlName="phone" />
+  </label>
+  <div *ngIf="formGroup.get('phone')?.invalid && formGroup.get('phone')?.touched">Phone is required</div>
+
+  <button type="submit" [disabled]="formGroup.invalid">Save</button>
+</form>
