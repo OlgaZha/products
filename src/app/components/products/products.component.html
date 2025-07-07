@@ -12,6 +12,6 @@
 </ul>
 
 <div class="products-list">
-    <app-product *ngFor="let item of myProducts" [product]="item" (cartCounter)="getCounterValue()"></app-product>
+    <app-product class="products-list__item" *ngFor="let item of myProducts" [product]="item" (cartCounter)="getCounterValue()"></app-product>
 </div>
 

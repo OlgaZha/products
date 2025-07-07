@@ -1,3 +1,5 @@
+<a [routerLink]="['/compare-users']">Compare Users</a>
+
 <div class="card-container">
   <div *ngFor="let product of products">
     <div class="product-card">
@@ -20,6 +22,7 @@
 <!--  <input required name="productCategory" [(ngModel)]="newProduct.category">-->
 <!--  <button type="submit" [disabled]="productForm.invalid">Add product</button>-->
 <!--</form>-->
+
 <form [formGroup]="form" (ngSubmit)="addProduct()">
   <label>Title: </label>
   <input formControlName="title">

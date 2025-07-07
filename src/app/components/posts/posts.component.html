@@ -1,0 +1,30 @@
+<label>Search</label>
+<input type="" [formControl]="informControl">
+
+<label>Select post</label>
+<select [formControl]="selectPostControl">
+  <option value="0" disabled>--choose option--</option>
+  <option [value]="post.id" *ngFor="let post of posts$|async">{{post.title}}</option>
+</select>
+<div *ngIf="selectedPost| async as myPost" >
+  <span>{{myPost.userId}}</span>
+  <div>{{myPost.id}}</div>
+  <div>{{myPost.title}}</div>
+  <div>{{myPost.body}}</div>
+</div>
+
+<div *ngIf="selectedUser | async as user">
+  <p><strong>Name:</strong> {{ user.name }}</p>
+  <p><strong>Email:</strong> {{ user.email }}</p>
+  <p><strong>Phone:</strong> {{ user.phone }}</p>
+  <button (click)="clearSelection()" >Clear</button>
+</div>
+
+<!--<div *ngFor="let post of filteredPosts$ | async" >-->
+<!--  <span>{{post.userId}}</span>-->
+<!--  <div>{{post.id}}</div>-->
+<!--  <div>Title: {{post.title}}</div>-->
+<!--  <div>Post: {{post.body}}</div>-->
+<!--</div>-->
+
+

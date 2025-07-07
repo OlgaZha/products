@@ -1,6 +1,6 @@
 <div class="product-card">
     <h1>{{product?.title}}</h1>
     <p [ngClass]="{'is-expensive': isExpensive()}">Price: {{product?.price}}$</p>
-    <button (click)="counterClicked()">Add to card</button>
+    <button class="counter-button" (click)="counterClicked()">Add to card</button>
     <a [routerLink]="['/product', product?.id]">Details</a>
 </div>

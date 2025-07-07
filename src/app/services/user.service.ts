@@ -5,7 +5,6 @@ import {forkJoin, Observable, of} from 'rxjs';
 
 let users = [];
 let API = 'https://jsonplaceholder.typicode.com/users'
-let API_POSTS = 'https://jsonplaceholder.typicode.com/posts';
 
 @Injectable({
   providedIn: 'root'
@@ -25,9 +24,7 @@ export class UserService {
   loadAllUsers(): Observable<User[]> {
     return this.http.get<User[]>(API);
   }
-  loadAllPosts(): Observable<Post[]> {
-    return this.http.get<Post[]>(API_POSTS);
-  }
+
 
   setUsers(users: User[]) {
     this.users = users;

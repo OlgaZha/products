@@ -36,4 +36,7 @@ export class HomeComponent implements OnInit{
   goToUsers() {
     this.router.navigate(['/users']);
   }
+  goToPosts() {
+    this.router.navigate(['/posts']);
+  }
 }

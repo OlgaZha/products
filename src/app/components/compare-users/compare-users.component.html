@@ -1,0 +1,26 @@
+<label>First user:
+  <select [(ngModel)]="firstSelectedId" (change)="onUserChanged()">
+    <option value="0" disabled>--choose option--</option>
+    <option [value]="user.id" *ngFor="let user of users">{{user.name}}</option>
+  </select>
+</label>
+<label>Second user:
+  <select [(ngModel)]="secondSelectedId" (change)="onUserChanged()">
+    <option value="0" disabled>--choose option--</option>
+    <option [value]="user.id" *ngFor="let user of users">{{user.name}}</option>
+  </select>
+</label>
+<div *ngIf="firstSelectedUser && secondSelectedUser">
+  <div>
+    <span>{{firstSelectedUser.name}}</span>
+    <span>{{firstSelectedUser.email}}</span>
+    <span>{{firstSelectedUser.phone}}</span>
+    <span>{{firstPostsCount}}</span>
+  </div>
+  <div>
+    <span>{{secondSelectedUser.name}}</span>
+    <span>{{secondSelectedUser.email}}</span>
+    <span>{{secondSelectedUser.phone}}</span>
+    <span>{{secondPostsCount}}</span>
+  </div>
+</div>

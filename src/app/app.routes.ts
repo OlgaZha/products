@@ -3,6 +3,8 @@ import {HomeComponent} from './components/home/home.component';
 import {ManagerComponent} from './components/manager/manager.component';
 import {UsersComponent} from './components/users/users.component';
 import {EditUserComponent} from './components/edit-user/edit-user.component';
+import {CompareUsersComponent} from './components/compare-users/compare-users.component';
+import {PostsComponent} from './components/posts/posts.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent},
@@ -13,4 +15,6 @@ export const routes: Routes = [
     import('./components/product-details/product-details.component').then(c => c.ProductDetailsComponent)
   },
   { path: 'users/:id', component: EditUserComponent},
+  {path: 'compare-users', component: CompareUsersComponent},
+  {path: 'posts', component: PostsComponent}
 ];

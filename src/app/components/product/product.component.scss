@@ -1,10 +1,19 @@
 .product-card {
-    background-color: beige;
-    width: 200px;
+  width: 200px;
+  height: 215px;
+  padding: 0 10px;
+  background-color: beige;
+  line-clamp: 3;
 }
 
 h1 {
-    font-weight: 200;
+  font-weight: 200;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
 }
 
 p {
@@ -13,4 +22,24 @@ p {
 
 .is-expensive {
     background-color: rgb(255, 145, 0);
+}
+
+.counter-button {
+  background-color: #3f51b5;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-weight: 500;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    background-color: #303f9f;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  &:active {
+    background-color: #1a237e;
+  }
 }

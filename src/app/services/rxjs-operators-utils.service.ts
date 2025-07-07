@@ -17,13 +17,14 @@ import {UserService} from './user.service';
 import {FormControl} from '@angular/forms';
 import {ProductsService} from './products.service';
 import {Product} from '../models/product.model';
+import {PostsService} from './posts.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RxjsOperatorsUtilsService {
 
-  constructor(private userService: UserService, private _productService: ProductsService) {
+  constructor(private userService: UserService, private _productService: ProductsService, private _postsService: PostsService) {
   }
 
   getUsersById(): void {
@@ -47,7 +48,7 @@ export class RxjsOperatorsUtilsService {
   }
 
   useCombineLatest(): void {
-    combineLatest([this.userService.loadAllUsers(), this.userService.loadAllPosts()]).pipe(
+    combineLatest([this.userService.loadAllUsers(), this._postsService.loadAllPosts()]).pipe(
       map(([users, posts]) => {
         return users.map((user: User) => {
           const userPosts = posts.filter(post => post.userId === user.id)

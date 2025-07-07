@@ -4,6 +4,7 @@ import {ProductsService} from '../../services/products.service';
 import {FormBuilder, FormControl, FormGroup, Validators, FormArray} from '@angular/forms';
 import {forbiddenName} from '../../validators';
 import {LoggerService} from '../../services/logger.service';
+import {CompareUsersComponent} from '../compare-users/compare-users.component';
 
 @Component({
   selector: 'app-manager',
@@ -82,4 +83,6 @@ export class ManagerComponent implements OnInit {
       })
     }
   }
+
+  protected readonly CompareUsersComponent = CompareUsersComponent;
 }

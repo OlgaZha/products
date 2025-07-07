@@ -15,9 +15,11 @@ import {UserComponent} from './components/user/user.component';
 import {MessageComponent} from './components/message/message.component';
 import {ProductsAuthInterceptor} from './interceptors/products-auth.interceptor';
 import {EditUserComponent} from './components/edit-user/edit-user.component';
+import {CompareUsersComponent} from './components/compare-users/compare-users.component';
+import {PostsComponent} from './components/posts/posts.component';
 
 @NgModule({
-  declarations: [AppComponent, ProductsComponent, ProductComponent, HomeComponent, ManagerComponent, UsersComponent, UserComponent, EditUserComponent],
+  declarations: [AppComponent, ProductsComponent, ProductComponent, HomeComponent, ManagerComponent, UsersComponent, UserComponent, EditUserComponent, CompareUsersComponent, PostsComponent],
   imports: [BrowserModule, HttpClientModule, AppRoutingModule, FormsModule, ReactiveFormsModule, MessageComponent],
   providers: [ProductsService, {provide: HTTP_INTERCEPTORS, useClass: ProductsAuthInterceptor, multi: true}],
   bootstrap: [AppComponent]

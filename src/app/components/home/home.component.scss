@@ -1,0 +1,56 @@
+.mdl-layout__header {
+  background-color: #3fb58c;
+  color: #fff;
+}
+
+.mdl-layout__header-row {
+  display: flex;
+  flex-direction: row;
+  justify-content:  space-between;
+  padding: 0 24px;
+}
+
+.mdl-layout-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mdl-navigation__link {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  padding: 12px 8px;
+
+  &:hover {
+    color: #c5cae9;
+    cursor: pointer;
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #c5cae9;
+    transition: width 0.3s;
+  }
+
+  &:hover:after {
+    width: 100%;
+  }
+}
+
+a:last-child {
+  color: #ffeb3b;
+  font-weight: bold;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  padding-left: 24px;
+}

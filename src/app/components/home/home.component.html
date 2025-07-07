@@ -7,17 +7,21 @@
         <a class="mdl-navigation__link">Dashboard</a>
         <a class="mdl-navigation__link" (click)="goToManage()">Manage</a>
         <a class="mdl-navigation__link" (click)="goToUsers()">Users</a>
+        <a (click)="goToPosts()">Posts</a>
       </nav>
     </div>
   </header>
-  <p>Cart: {{cardCount}}</p>
-  <app-message></app-message>
-  <div>
-    <app-user></app-user>
-    <app-products [myProducts]="products" (cartCounter)="getCount()"></app-products>
-    <div *ngFor="let log of getLogs">
+  <div class="main-content">
+    <p>Cart: {{cardCount}}</p>
+    <app-message></app-message>
+    <div>
+      <app-user></app-user>
+      <app-products [myProducts]="products" (cartCounter)="getCount()"></app-products>
+      <div *ngFor="let log of getLogs">
         <p>{{log}}</p>
+      </div>
     </div>
   </div>
+
 
 </div>
