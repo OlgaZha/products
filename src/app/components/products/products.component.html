@@ -5,6 +5,15 @@
   </select>
 </label>
 
+<input type="number" placeholder="minPrice" [(ngModel)]="minPrice">
+<input type="number" placeholder="maxPrice"  [(ngModel)]="maxPrice">
+<ng-container *ngIf="products$ | async as myProducts">
+  <ng-container *ngFor="let product of myProducts | filterByPricePipe:minPrice:maxPrice">
+    <p>{{product.title}} - {{ product.price}}</p>
+  </ng-container>
+</ng-container>
+
+
 <label></label>
 <input type="text" placeholder="search product by category" [formControl]="searchControl">
 <ul>

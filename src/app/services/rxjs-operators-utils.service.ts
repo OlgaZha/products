@@ -198,5 +198,4 @@ export class RxjsOperatorsUtilsService {
     ).subscribe(result => {
       console.log(result);
     })}
-
 }

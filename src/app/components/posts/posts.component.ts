@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {PostsService} from '../../services/posts.service';
-import {map, Observable, startWith, combineLatest, switchMap} from 'rxjs';
+import {map, Observable, startWith, combineLatest, switchMap, of} from 'rxjs';
 import {Post, User} from '../../models/user.model';
 import {FormControl} from '@angular/forms';
 import {UserService} from '../../services/user.service';
@@ -17,7 +17,11 @@ export class PostsComponent implements OnInit {
   informControl: FormControl = new FormControl('');
   selectPostControl: FormControl = new FormControl('');
   selectedPost!: Observable<Post>;
-  selectedUser!: Observable<User | undefined>;
+  selectedUser!: Observable<User | null>;
+  toggle: boolean = false;
+  searchValue: string = "";
+  selectNumberOfPosts: FormControl = new FormControl(0);
+  filteredByValue$!: Observable<Post[]>;
 constructor(private _postsService: PostsService, private _userService: UserService) {
 
 }
@@ -30,29 +34,35 @@ constructor(private _postsService: PostsService, private _userService: UserServi
     )
     this.onSelectPost()
     this.displayUserInfo()
+    this.selectedPosts()
   }
 
   onSelectPost(){
     this.selectedPost = this.selectPostControl.valueChanges.pipe(
       startWith(''),
-      switchMap(id => this._postsService.loadPost(id))
+      switchMap(id => {
+        return this._postsService.loadPost(id)})
     )
   }
 
   displayUserInfo() {
-     this.selectedUser = combineLatest([
-      this.selectPostControl.valueChanges.pipe(startWith('')),
-      this.posts$,
-      this._userService.loadAllUsers()
-    ]).pipe(
-      map(([selectedPostId, posts, users]) => {
-        const post = posts.find(p => p.id === +selectedPostId);
-        return users.find(u => u.id === post?.userId)
-      })
+     this.selectedUser = this.selectedPost.pipe(
+      switchMap(post => this._userService.loadUser(post.userId))
     )
   }
 
   clearSelection() {
   this.selectPostControl.setValue('')
+  }
+
+  selectedPosts() {
+    this.filteredByValue$ = combineLatest([
+      this.posts$,
+      this.selectNumberOfPosts.valueChanges.pipe(startWith(1))
+    ]).pipe(
+      map(([posts, value]) => {
+        return posts.slice(0, value-1)
+      })
+    )
   }
 }

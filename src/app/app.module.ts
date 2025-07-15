@@ -17,9 +17,13 @@ import {ProductsAuthInterceptor} from './interceptors/products-auth.interceptor'
 import {EditUserComponent} from './components/edit-user/edit-user.component';
 import {CompareUsersComponent} from './components/compare-users/compare-users.component';
 import {PostsComponent} from './components/posts/posts.component';
+import {PostPreviewComponent} from './components/post-preview/post-preview.component';
+import {FilterByTitlePipe} from './pipes/filter-by-title.pipe';
+import {AppUserCardComponent} from './components/app-user-card/app-user-card.component';
+import {FilterByPricePipe} from './pipes/filter-by-price.pipe';
 
 @NgModule({
-  declarations: [AppComponent, ProductsComponent, ProductComponent, HomeComponent, ManagerComponent, UsersComponent, UserComponent, EditUserComponent, CompareUsersComponent, PostsComponent],
+  declarations: [AppComponent, ProductsComponent, ProductComponent, HomeComponent, ManagerComponent, UsersComponent, UserComponent, EditUserComponent, CompareUsersComponent, PostsComponent, PostPreviewComponent, FilterByTitlePipe, AppUserCardComponent, FilterByPricePipe],
   imports: [BrowserModule, HttpClientModule, AppRoutingModule, FormsModule, ReactiveFormsModule, MessageComponent],
   providers: [ProductsService, {provide: HTTP_INTERCEPTORS, useClass: ProductsAuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
