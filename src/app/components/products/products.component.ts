@@ -19,6 +19,8 @@ export class ProductsComponent implements OnInit {
   categoryControl = new FormControl('');
   searchControl = new FormControl('');
   categories: string[] = [];
+  maxPrice: number = 0;
+  minPrice: number = 0;
   constructor(private _rxjsService: RxjsOperatorsUtilsService, private _productsService: ProductsService) {
   }
   ngOnInit() {

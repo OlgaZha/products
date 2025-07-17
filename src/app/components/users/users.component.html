@@ -12,13 +12,13 @@
 <!--<div *ngFor="let filteredUser of filteredUsers">-->
 <!--  <app-user [user]="filteredUser"></app-user>-->
 <!--</div>-->
-
+<button (click)="refreshUsers$">Refresh</button>
 <div>
 <!--    <div *ngFor="let item of users">-->
 <!--      <app-user [user]="item"></app-user>-->
 <!--    </div>-->
-  <div *ngFor="let filteredUser of filteredUsers">
-    <app-user [user]="filteredUser"></app-user>
+  <div *ngFor="let filteredUser of filteredUsers" (click)="selectUser(filteredUser)">
+    <app-user [user]="filteredUser" [isSelected]="filteredUser===selectedUser"></app-user>
     <a [routerLink]="['/users', filteredUser.id]">Edit user</a>
   </div>
 </div>

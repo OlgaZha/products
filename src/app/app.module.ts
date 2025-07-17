@@ -21,9 +21,25 @@ import {PostPreviewComponent} from './components/post-preview/post-preview.compo
 import {FilterByTitlePipe} from './pipes/filter-by-title.pipe';
 import {AppUserCardComponent} from './components/app-user-card/app-user-card.component';
 import {FilterByPricePipe} from './pipes/filter-by-price.pipe';
+import {ProductCardComponent} from './components/product-card/product-card.component';
 
 @NgModule({
-  declarations: [AppComponent, ProductsComponent, ProductComponent, HomeComponent, ManagerComponent, UsersComponent, UserComponent, EditUserComponent, CompareUsersComponent, PostsComponent, PostPreviewComponent, FilterByTitlePipe, AppUserCardComponent, FilterByPricePipe],
+  declarations: [AppComponent,
+    ProductsComponent,
+    ProductComponent,
+    HomeComponent,
+    ManagerComponent,
+    UsersComponent,
+    UserComponent,
+    EditUserComponent,
+    CompareUsersComponent,
+    PostsComponent,
+    PostPreviewComponent,
+    FilterByTitlePipe,
+    AppUserCardComponent,
+    FilterByPricePipe,
+    ProductCardComponent
+  ],
   imports: [BrowserModule, HttpClientModule, AppRoutingModule, FormsModule, ReactiveFormsModule, MessageComponent],
   providers: [ProductsService, {provide: HTTP_INTERCEPTORS, useClass: ProductsAuthInterceptor, multi: true}],
   bootstrap: [AppComponent]

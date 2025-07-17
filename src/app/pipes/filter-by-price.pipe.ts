@@ -10,7 +10,7 @@ import {min} from 'rxjs';
 export class FilterByPricePipe implements PipeTransform {
   transform(products: Product[], minPrice: number, maxPrice: number): Product[] {
     return products.filter(product => {
-       return (minPrice || product.price >= minPrice) && (maxPrice || product.price <= maxPrice);
+       return (product.price >= minPrice && product.price <= maxPrice);
     });
   }
 }

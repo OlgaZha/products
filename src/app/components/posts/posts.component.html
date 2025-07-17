@@ -18,7 +18,6 @@
     {{post.title}}
   </p>
 
-
 <ng-template #post let-post1="name">
   <span>{{post1.userId}}</span>
   <div>{{post1.id}}</div>
@@ -32,16 +31,17 @@
   ></ng-container>
 </div>
 
-<ng-template #userCard let-user="user">
+<ng-template #userCard let-user="inputUser">
   <p><strong>Name:</strong> {{ user.name }}</p>
   <p><strong>Email:</strong> {{ user.email }}</p>
   <p><strong>Phone:</strong> {{ user.phone }}</p>
 </ng-template>
 
 <ng-container *ngIf="selectedUser | async as user; else loadingUser">
-  <ng-container
-  *ngTemplateOutlet="userCard; context: {user: user}"
-  ></ng-container>
+<!--  <ng-container-->
+<!--  *ngTemplateOutlet="userCard; context: {user: user}"-->
+<!--  ></ng-container>-->
+  <app-user-card [user]="user" [template]="userCard"></app-user-card>
 </ng-container>
 <button (click)="clearSelection()">Clear</button>
 

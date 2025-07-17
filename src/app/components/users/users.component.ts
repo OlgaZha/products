@@ -12,6 +12,7 @@ import {
 } from 'rxjs';
 import {log} from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
 import {RxjsOperatorsUtilsService} from '../../services/rxjs-operators-utils.service';
+import {UserSelectionServiceService} from '../../services/user-selection-service.service';
 
 @Component({
   selector: 'app-users',
@@ -38,7 +39,9 @@ export class UsersComponent implements  OnInit {
   filteredUsers: User[] = [];
   result: string = '';
   searchControl:any = new FormControl('');
-  constructor(private userService: UserService, private fb: FormBuilder, private _loggerService: LoggerService, private _rxjsService: RxjsOperatorsUtilsService) {
+  selectedUser!: User;
+  refreshUsers$!:  Observable<User[]>;
+  constructor(private userService: UserService, private fb: FormBuilder, private _loggerService: LoggerService, private _rxjsService: RxjsOperatorsUtilsService, private _selectUser: UserSelectionServiceService) {
     this.form = this.fb.group({
       name: ['', Validators.required],
       username: ['', Validators.required],
@@ -106,12 +109,19 @@ export class UsersComponent implements  OnInit {
     ).subscribe((results: any[]) => {
       this.filteredUsers = results;
     })
+
+    this._selectUser.selectedUser$.subscribe(selectedUser => this.selectedUser = selectedUser)
+
     }
   getAllUsers(): void {
     this.userService.loadAllUsers().subscribe(users => {
       this.users = users;
       this.filteredUsers = this.users;
     });
+  }
+
+  selectUser(user: User) {
+    this._selectUser.selectUser(user)
   }
 
   // onUserControlValueChanged() {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Post, User} from '../models/user.model';
 import {HttpClient} from '@angular/common/http';
-import {forkJoin, Observable, of} from 'rxjs';
+import {forkJoin, Observable, of, Subject, switchMap, combineLatest} from 'rxjs';
 
 let users = [];
 let API = 'https://jsonplaceholder.typicode.com/users'
@@ -11,6 +11,7 @@ let API = 'https://jsonplaceholder.typicode.com/users'
 })
 export class UserService {
   private users: User[] = [];
+  reloadUsers$ = new Subject<User[]>();
   constructor(private http: HttpClient) {}
   addUser(user: User) {
     users.push(user);
@@ -36,5 +37,4 @@ export class UserService {
   updateUser(user: User): Observable<User> {
     return this.http.put<User>(API + '/' + user.id, user);
   }
-
 }
