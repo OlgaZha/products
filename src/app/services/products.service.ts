@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Product } from '../models/product.model';
-import {forkJoin, Observable, of} from 'rxjs';
-import {User} from '../models/user.model';
+import {BehaviorSubject, Observable, of} from 'rxjs';
 
 let products = [];
 let API = 'https://fakestoreapi.com/products/'
@@ -13,6 +12,7 @@ let API = 'https://fakestoreapi.com/products/'
 
 export class ProductsService {
 private products: Product[] = [];
+selectedProduct$ = new BehaviorSubject<Product|null>(null);
   constructor(private http: HttpClient) { }
   add(product: Product) { //create
     products.push(product)
@@ -24,7 +24,7 @@ private products: Product[] = [];
     return of(null)
   }
   loadAll(): Observable<Product[]> {
-    return this.http.get<Product[]>(API)
+    return this.http.get<Product[]>(API);
   }
   setProducts(products: Product[]) {
     this.products = products;
@@ -33,9 +33,15 @@ private products: Product[] = [];
     return this.products;
   }
   getCategories(): Observable<string[]> {
-    return this.http.get<string[]>(API + 'categories')
+    return this.http.get<string[]>(API + 'categories');
   }
   getProductsByCategory(category: string): Observable<Product[]> {
-    return this.http.get<Product[]>(API + '/category/' + category )
+    return this.http.get<Product[]>(API + '/category/' + category);
+  }
+  getSelectedProduct() {
+    return this.selectedProduct$.asObservable();
+  }
+  selectProduct(product: Product|null) {
+    return this.selectedProduct$.next(product);
   }
 }

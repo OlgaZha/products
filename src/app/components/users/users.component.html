@@ -12,7 +12,14 @@
 <!--<div *ngFor="let filteredUser of filteredUsers">-->
 <!--  <app-user [user]="filteredUser"></app-user>-->
 <!--</div>-->
-<button (click)="refreshUsers$">Refresh</button>
+<input placeholder="Search user" (input)="onSearch($event)">
+<div *ngFor="let user of filteredUsers$|async">
+  <p>{{user.name}}</p>
+</div>
+<button (click)="refresh()">Refresh</button>
+<div *ngFor="let user of refreshUsers$|async">
+  <p>{{user.name}}</p>
+</div>
 <div>
 <!--    <div *ngFor="let item of users">-->
 <!--      <app-user [user]="item"></app-user>-->

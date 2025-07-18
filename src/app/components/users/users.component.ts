@@ -41,6 +41,7 @@ export class UsersComponent implements  OnInit {
   searchControl:any = new FormControl('');
   selectedUser!: User;
   refreshUsers$!:  Observable<User[]>;
+  filteredUsers$!:Observable<User[]>;
   constructor(private userService: UserService, private fb: FormBuilder, private _loggerService: LoggerService, private _rxjsService: RxjsOperatorsUtilsService, private _selectUser: UserSelectionServiceService) {
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -111,7 +112,8 @@ export class UsersComponent implements  OnInit {
     })
 
     this._selectUser.selectedUser$.subscribe(selectedUser => this.selectedUser = selectedUser)
-
+    this.refreshUsers$ = this.userService.users$;
+    this.filteredUsers$ = this.userService.getFilteredUsers()
     }
   getAllUsers(): void {
     this.userService.loadAllUsers().subscribe(users => {
@@ -122,6 +124,15 @@ export class UsersComponent implements  OnInit {
 
   selectUser(user: User) {
     this._selectUser.selectUser(user)
+  }
+
+  refresh() {
+    this.userService.refreshUsers()
+  }
+
+  onSearch(event: Event) {
+    let input = event.target as HTMLInputElement;
+    this.userService.searchUsers(input.value)
   }
 
   // onUserControlValueChanged() {

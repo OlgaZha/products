@@ -2,5 +2,5 @@
     <h1>{{product?.title}}</h1>
     <p [ngClass]="{'is-expensive': isExpensive()}">Price: {{product?.price}}$</p>
     <button class="counter-button" (click)="counterClicked()">Add to card</button>
-    <a [routerLink]="['/product', product?.id]">Details</a>
+    <a [routerLink]="['/product', product?.id]" (click)="onSelectProduct()">Details</a>
 </div>

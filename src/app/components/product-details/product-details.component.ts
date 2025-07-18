@@ -15,7 +15,8 @@ export class ProductDetailsComponent {
   product$!: Observable<Product|null>;
   constructor(private productsService: ProductsService, private route: ActivatedRoute) { }
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.product$ = this.productsService.load(id);
+    // const id = Number(this.route.snapshot.paramMap.get('id'));
+    // this.product$ = this.productsService.load(id);
+    this.product$ = this.productsService.getSelectedProduct();
   }
 }
