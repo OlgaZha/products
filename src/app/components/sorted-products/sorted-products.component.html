@@ -1,0 +1,12 @@
+<button (click)="sortBy('price')">Sort by price</button>
+<button (click)="sortBy('name')">Sort by name</button>
+
+<!--<ul *ngIf="sortedProducts$ | async as products">-->
+<!--  <li *ngFor="let product of products">-->
+<!--    {{product.title}} - {{product.price}}-->
+<!--  </li>-->
+<!--</ul>-->
+
+<div *ngFor="let product of sortedProducts$|async">
+  {{product.title}} - {{product.price}}
+</div>

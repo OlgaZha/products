@@ -7,11 +7,10 @@ import {
   of,
   Subject,
   switchMap,
-  combineLatest,
   startWith,
   debounceTime,
   map,
-  ReplaySubject, tap
+  ReplaySubject, tap, BehaviorSubject
 } from 'rxjs';
 
 let users = [];
@@ -32,6 +31,9 @@ export class UserService {
   searchValue$ = new Subject<string>();
   cacheUsers$ = new ReplaySubject<User[]>(1);
   isUsersLoaded: boolean = false;
+  sortTypeSubject = new BehaviorSubject<'price'|'name'>('price');
+  sortType$ = this.sortTypeSubject.asObservable();
+
   constructor(private http: HttpClient) {}
   addUser(user: User) {
     users.push(user);
@@ -69,6 +71,7 @@ export class UserService {
       })
     )
   }
+
   searchUsers(value: string) {
     return this.searchValue$.next(value)
   }
@@ -85,4 +88,9 @@ export class UserService {
       console.log('Users are already loaded')
     }
   }
+
+  setSortType(type: 'price' | 'name') {
+    this.sortTypeSubject.next(type);
+  }
+
 }

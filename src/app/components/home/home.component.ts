@@ -39,4 +39,7 @@ export class HomeComponent implements OnInit{
   goToPosts() {
     this.router.navigate(['/posts']);
   }
+  goToSorting() {
+    this.router.navigate(['/sorting']);
+  }
 }

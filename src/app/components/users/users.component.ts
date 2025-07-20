@@ -8,9 +8,8 @@ import {
   distinctUntilChanged,
   filter,
   map,
-  Observable, of, switchMap,
+  Observable
 } from 'rxjs';
-import {log} from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
 import {RxjsOperatorsUtilsService} from '../../services/rxjs-operators-utils.service';
 import {UserSelectionServiceService} from '../../services/user-selection-service.service';
 

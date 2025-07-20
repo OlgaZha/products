@@ -22,6 +22,7 @@ import {FilterByTitlePipe} from './pipes/filter-by-title.pipe';
 import {AppUserCardComponent} from './components/app-user-card/app-user-card.component';
 import {FilterByPricePipe} from './pipes/filter-by-price.pipe';
 import {ProductCardComponent} from './components/product-card/product-card.component';
+import {SortedProductsComponent} from './components/sorted-products/sorted-products.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -38,7 +39,8 @@ import {ProductCardComponent} from './components/product-card/product-card.compo
     FilterByTitlePipe,
     AppUserCardComponent,
     FilterByPricePipe,
-    ProductCardComponent
+    ProductCardComponent,
+    SortedProductsComponent
   ],
   imports: [BrowserModule, HttpClientModule, AppRoutingModule, FormsModule, ReactiveFormsModule, MessageComponent],
   providers: [ProductsService, {provide: HTTP_INTERCEPTORS, useClass: ProductsAuthInterceptor, multi: true}],
