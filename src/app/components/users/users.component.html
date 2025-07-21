@@ -12,23 +12,29 @@
 <!--<div *ngFor="let filteredUser of filteredUsers">-->
 <!--  <app-user [user]="filteredUser"></app-user>-->
 <!--</div>-->
-<input placeholder="Search user" (input)="onSearch($event)">
-<div *ngFor="let user of filteredUsers$|async">
+
+<button (click)="cachedUsers()">Cache users</button>
+<div *ngFor="let user of cachedUsers$|async">
   <p>{{user.name}}</p>
 </div>
-<button (click)="refresh()">Refresh</button>
-<div *ngFor="let user of refreshUsers$|async">
-  <p>{{user.name}}</p>
-</div>
-<div>
+
+<!--<input placeholder="Search user" (input)="onSearch($event)">-->
+<!--<div *ngFor="let user of filteredUsers$|async">-->
+<!--  <p>{{user.name}}</p>-->
+<!--</div>-->
+<!--<button (click)="refresh()">Refresh</button>-->
+<!--<div *ngFor="let user of refreshUsers$|async">-->
+<!--  <p>{{user.name}}</p>-->
+<!--</div>-->
+<!--<div>-->
 <!--    <div *ngFor="let item of users">-->
 <!--      <app-user [user]="item"></app-user>-->
 <!--    </div>-->
-  <div *ngFor="let filteredUser of filteredUsers" (click)="selectUser(filteredUser)">
-    <app-user [user]="filteredUser" [isSelected]="filteredUser===selectedUser"></app-user>
-    <a [routerLink]="['/users', filteredUser.id]">Edit user</a>
-  </div>
-</div>
+<!--  <div *ngFor="let filteredUser of filteredUsers" (click)="selectUser(filteredUser)">-->
+<!--    <app-user [user]="filteredUser" [isSelected]="filteredUser===selectedUser"></app-user>-->
+<!--    <a [routerLink]="['/users', filteredUser.id]">Edit user</a>-->
+<!--  </div>-->
+<!--</div>-->
 
 
 <!--<form [formGroup]="form" (ngSubmit)="addUser()">-->

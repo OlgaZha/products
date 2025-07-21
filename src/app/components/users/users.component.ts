@@ -41,6 +41,7 @@ export class UsersComponent implements  OnInit {
   selectedUser!: User;
   refreshUsers$!:  Observable<User[]>;
   filteredUsers$!:Observable<User[]>;
+  cachedUsers$!:Observable<User[]>;
   constructor(private userService: UserService, private fb: FormBuilder, private _loggerService: LoggerService, private _rxjsService: RxjsOperatorsUtilsService, private _selectUser: UserSelectionServiceService) {
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -113,6 +114,8 @@ export class UsersComponent implements  OnInit {
     this._selectUser.selectedUser$.subscribe(selectedUser => this.selectedUser = selectedUser)
     this.refreshUsers$ = this.userService.users$;
     this.filteredUsers$ = this.userService.getFilteredUsers()
+    this.cachedUsers$ = this.userService.getUsersLazy();
+
     }
   getAllUsers(): void {
     this.userService.loadAllUsers().subscribe(users => {
@@ -134,6 +137,9 @@ export class UsersComponent implements  OnInit {
     this.userService.searchUsers(input.value)
   }
 
+  cachedUsers() {
+    this.userService.getUsersLazy()
+  }
   // onUserControlValueChanged() {
   //   this.usersControl.valueChanges.pipe(
   //     switchMap((category: string|null) => category ? this.userService.loadAllUsers(category) : of())

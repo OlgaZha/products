@@ -77,6 +77,7 @@ export class UserService {
   }
 
   loadUsersWithCache() {
+
     if(!this.isUsersLoaded) {
       this.loadAllUsers().pipe(
         tap(users => {
@@ -87,6 +88,11 @@ export class UserService {
     } else {
       console.log('Users are already loaded')
     }
+  }
+
+  getUsersLazy() {
+    this.loadUsersWithCache();
+    return this.cacheUsers$.asObservable();
   }
 
   setSortType(type: 'price' | 'name') {

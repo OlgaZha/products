@@ -23,6 +23,10 @@ import {AppUserCardComponent} from './components/app-user-card/app-user-card.com
 import {FilterByPricePipe} from './pipes/filter-by-price.pipe';
 import {ProductCardComponent} from './components/product-card/product-card.component';
 import {SortedProductsComponent} from './components/sorted-products/sorted-products.component';
+import {MatTableModule} from '@angular/material/table';
+import {MatSortModule} from '@angular/material/sort';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {UsersTableComponent} from './components/users-table/users-table.component';
 
 @NgModule({
   declarations: [AppComponent,
@@ -40,9 +44,19 @@ import {SortedProductsComponent} from './components/sorted-products/sorted-produ
     AppUserCardComponent,
     FilterByPricePipe,
     ProductCardComponent,
-    SortedProductsComponent
+    SortedProductsComponent,
+    UsersTableComponent
   ],
-  imports: [BrowserModule, HttpClientModule, AppRoutingModule, FormsModule, ReactiveFormsModule, MessageComponent],
+  imports: [BrowserModule,
+    HttpClientModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MessageComponent,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule
+  ],
   providers: [ProductsService, {provide: HTTP_INTERCEPTORS, useClass: ProductsAuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
