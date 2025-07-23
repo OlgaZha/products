@@ -1,0 +1,35 @@
+mat-table {
+  border: 1px solid black;
+}
+
+mat-header-cell {
+  font-weight: 600;
+}
+
+mat-header-cell, mat-cell {
+  padding: 16px;
+  font-size: 14px;
+  vertical-align: middle;
+  transition: background-color .3s;
+}
+
+mat-header-cell:hover, mat-cell:hover {
+  background-color: grey;
+}
+
+mat-row:nth-child(even) {
+  background-color: #b3b3ae;
+}
+
+mat-row:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+mat-paginator {
+  display:  flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 10px;
+  background-color: #ffffff;
+  cursor: pointer;
+}
