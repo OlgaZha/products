@@ -77,9 +77,8 @@ export class UserService {
   }
 
   loadUsersWithCache() {
-
     if(!this.isUsersLoaded) {
-      this.loadAllUsers().pipe(
+      return this.loadAllUsers().pipe(
         tap(users => {
           this.cacheUsers$.next(users);
           this.isUsersLoaded = true;
@@ -87,12 +86,12 @@ export class UserService {
       )
     } else {
       console.log('Users are already loaded')
+      return this.cacheUsers$.asObservable();
     }
   }
 
   getUsersLazy() {
-    this.loadUsersWithCache();
-    return this.cacheUsers$.asObservable();
+    return this.loadUsersWithCache();
   }
 
   setSortType(type: 'price' | 'name') {

@@ -27,6 +27,8 @@ import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {UsersTableComponent} from './components/users-table/users-table.component';
+import {TableFilterComponent} from './components/table-filter/table-filter.component';
+import {MatInputModule} from '@angular/material/input';
 
 @NgModule({
   declarations: [AppComponent,
@@ -45,7 +47,8 @@ import {UsersTableComponent} from './components/users-table/users-table.componen
     FilterByPricePipe,
     ProductCardComponent,
     SortedProductsComponent,
-    UsersTableComponent
+    UsersTableComponent,
+    TableFilterComponent
   ],
   imports: [BrowserModule,
     HttpClientModule,
@@ -55,7 +58,8 @@ import {UsersTableComponent} from './components/users-table/users-table.componen
     MessageComponent,
     MatTableModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatInputModule
   ],
   providers: [ProductsService, {provide: HTTP_INTERCEPTORS, useClass: ProductsAuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
