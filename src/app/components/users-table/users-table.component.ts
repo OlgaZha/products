@@ -14,7 +14,7 @@ import {PageSizeService} from '../../services/page-size.service';
 })
 export class UsersTableComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<User>();
-  columnsToDisplay: string[] = ['id', 'name', 'email'];
+  columnsToDisplay: string[] = ['id', 'name', 'email', 'actions'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   filterColumn: keyof User = "name";
@@ -23,7 +23,6 @@ export class UsersTableComponent implements OnInit, AfterViewInit {
   }
   ngOnInit() {
     this.userService.loadAllUsers().subscribe(users => {
-      debugger
       this.dataSource.data = users
     })
     this.pageSizeService.getPageSize().subscribe(pageSize => {
@@ -54,5 +53,13 @@ export class UsersTableComponent implements OnInit, AfterViewInit {
     this.currentPageSize = newSize;
     this.pageSizeService.setPageSize(newSize);
   }
+
+  onToggleEdit(user: any) {
+    user.editing = !user.editing;
+    if(!user.editing) {
+      console.log(`${user.name} was updated`)
+    }
+  }
+
 
 }
