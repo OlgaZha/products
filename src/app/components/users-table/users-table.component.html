@@ -1,5 +1,5 @@
 <app-table-filter (filterChanged)="onFilterChanged($event)"></app-table-filter>
-<mat-table [dataSource]="dataSource" matSort>
+<mat-table [dataSource]="dataSource" (matSortChange)="sortMat($event)" matSort>
 
   <ng-container matColumnDef="id">
     <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>

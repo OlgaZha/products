@@ -1,5 +1,5 @@
 <table mat-table [dataSource]="dataSource">
-<!--  створення динамiчних колонок-->
+<!--  creating dynamic columns -->
   <ng-container *ngFor="let column of columnsToStringName" [matColumnDef]="column">
     <th mat-header-cell *matHeaderCellDef>{{column}}</th>
     <td mat-cell *matCellDef="let entity">
@@ -12,7 +12,7 @@
     </td>
   </ng-container>
 
-<!--  генерування actions колонки-->
+<!--  generating actions column -->
   <ng-container *ngIf="displayedColumns.includes('actions')" matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef>Actions</th>
     <td mat-cell *matCellDef="let entity">
@@ -22,7 +22,7 @@
     </td>
   </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="columns"></tr>
-  <tr mat-row *matRowDef="let row; columns: columns"></tr>
+<!--  <tr mat-header-row *matHeaderRowDef="columns"></tr>-->
+<!--  <tr mat-row *matRowDef="let row; columns: columns"></tr>-->
 
 </table>

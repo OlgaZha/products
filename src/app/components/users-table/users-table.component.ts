@@ -3,8 +3,9 @@ import {MatTableDataSource} from '@angular/material/table';
 import {User} from '../../models/user.model';
 import {UserService} from '../../services/user.service';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
+import {MatSort, Sort} from '@angular/material/sort';
 import {PageSizeService} from '../../services/page-size.service';
+import {SortStateService} from '../../services/sort-state.service';
 
 @Component({
   selector: 'app-users-table',
@@ -19,7 +20,7 @@ export class UsersTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
   filterColumn: keyof User = "name";
   currentPageSize = 0;
-  constructor(private userService: UserService, private pageSizeService: PageSizeService) {
+  constructor(private userService: UserService, private pageSizeService: PageSizeService, private sortStateService: SortStateService) {
   }
   ngOnInit() {
     this.userService.loadAllUsers().subscribe(users => {
@@ -28,6 +29,7 @@ export class UsersTableComponent implements OnInit, AfterViewInit {
     this.pageSizeService.getPageSize().subscribe(pageSize => {
       this.currentPageSize = pageSize;
     })
+    this.sortStateService.getSortState();
   }
 
   ngAfterViewInit() {
@@ -37,6 +39,10 @@ export class UsersTableComponent implements OnInit, AfterViewInit {
       let value = (user[this.filterColumn] ?? '').toString().toLowerCase();
       return value?.includes(filterValue);
       })
+    this.sortStateService.sortState$.subscribe(state => {
+      this.sort.active = state.active;
+      this.sort.direction = state.direction;
+    })
   }
 
   onFilterChanged(filterValue: string) {
@@ -57,9 +63,11 @@ export class UsersTableComponent implements OnInit, AfterViewInit {
   onToggleEdit(user: any) {
     user.editing = !user.editing;
     if(!user.editing) {
-      console.log(`${user.name} was updated`)
+      console.log(`${user.name} was updated`);
     }
   }
 
-
+  sortMat($event: Sort) {
+    this.sortStateService.setSortState($event);
+  }
 }
