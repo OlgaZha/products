@@ -54,4 +54,12 @@ a:last-child {
   display: flex;
   flex-direction: column;
   padding-left: 24px;
+  position: relative;
+}
+
+.counter {
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  right: 50px;
 }

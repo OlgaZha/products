@@ -4,7 +4,7 @@ import {User} from '../../models/user.model';
 import {UserService} from '../../services/user.service';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {MatSort, Sort} from '@angular/material/sort';
-import {PageSizeService} from '../../services/page-size.service';
+import {PageStateService} from '../../services/page-size.service';
 import {SortStateService} from '../../services/sort-state.service';
 
 @Component({
@@ -20,15 +20,18 @@ export class UsersTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
   filterColumn: keyof User = "name";
   currentPageSize = 0;
-  constructor(private userService: UserService, private pageSizeService: PageSizeService, private sortStateService: SortStateService) {
+  users: User[] = [];
+  columns: string[] = ['id', 'name', 'email'];
+  displayedColumns: string[] = ['id', 'name', 'email', 'actions'];
+  constructor(private userService: UserService, private pageSizeService: PageStateService, private sortStateService: SortStateService) {
   }
   ngOnInit() {
     this.userService.loadAllUsers().subscribe(users => {
-      this.dataSource.data = users
+      this.users = users
     })
-    this.pageSizeService.getPageSize().subscribe(pageSize => {
-      this.currentPageSize = pageSize;
-    })
+    // this.pageSizeService.getPageSize().subscribe(pageSize => {
+    //   this.currentPageSize = pageSize;
+    // })
     this.sortStateService.getSortState();
   }
 
@@ -57,7 +60,7 @@ export class UsersTableComponent implements OnInit, AfterViewInit {
 
   onPageSizeChange(newSize: number) {
     this.currentPageSize = newSize;
-    this.pageSizeService.setPageSize(newSize);
+    // this.pageSizeService.setPageSize(newSize);
   }
 
   onToggleEdit(user: any) {
@@ -67,7 +70,7 @@ export class UsersTableComponent implements OnInit, AfterViewInit {
     }
   }
 
-  sortMat($event: Sort) {
-    this.sortStateService.setSortState($event);
-  }
+  // sortMat($event: Sort) {
+  //   this.sortStateService.setSortState($event);
+  // }
 }

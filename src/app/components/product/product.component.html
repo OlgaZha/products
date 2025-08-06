@@ -1,6 +1,10 @@
 <div class="product-card">
-    <h1>{{product?.title}}</h1>
-    <p [ngClass]="{'is-expensive': isExpensive()}">Price: {{product?.price}}$</p>
-    <button class="counter-button" (click)="counterClicked()">Add to card</button>
-    <a [routerLink]="['/product', product?.id]" (click)="onSelectProduct()">Details</a>
+  <h2>{{product?.title}}</h2>
+  <div class="product-box">
+    <p class="product-price" [ngClass]="{'is-expensive': isExpensive()}">
+      Price: {{product?.price}}$
+    </p>
+    <button class="counter-button" (click)="counterClicked()">Add to cart</button>
+    <a class="product-details" [routerLink]="['/product', product?.id]" (click)="onSelectProduct()">Details...</a>
+  </div>
 </div>

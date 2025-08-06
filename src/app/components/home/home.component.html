@@ -7,13 +7,16 @@
         <a class="mdl-navigation__link">Dashboard</a>
         <a class="mdl-navigation__link" (click)="goToManage()">Manage</a>
         <a class="mdl-navigation__link" (click)="goToUsers()">Users</a>
-        <a (click)="goToPosts()">Posts</a>
+        <a class="mdl-navigation__link" (click)="goToPosts()">Posts</a>
         <a (click)="goToSorting()">Sorting</a>
       </nav>
     </div>
   </header>
   <div class="main-content">
-    <p>Cart: {{cardCount}}</p>
+    <div class="counter">
+      <p>Cart: {{cardCount}}</p>
+    </div>
+
     <app-message></app-message>
     <div>
       <app-user></app-user>
