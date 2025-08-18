@@ -5,6 +5,10 @@ import {FormBuilder, FormControl, FormGroup, Validators, FormArray} from '@angul
 import {forbiddenName} from '../../validators';
 import {LoggerService} from '../../services/logger.service';
 import {CompareUsersComponent} from '../compare-users/compare-users.component';
+import {Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
+import {selectAllProducts, selectIsProductsLoading} from '../../state/products.select';
+import * as ProductsActions from '../../state/products.actions';
 
 @Component({
   selector: 'app-manager',
@@ -13,6 +17,8 @@ import {CompareUsersComponent} from '../compare-users/compare-users.component';
   standalone: false
 })
 export class ManagerComponent implements OnInit {
+  products$: Observable<Product[]>;
+  isLoading$: Observable<boolean>;
   newProduct = {
     title: '',
     price: 0,
@@ -24,7 +30,7 @@ export class ManagerComponent implements OnInit {
   defaultId = 1;
   form: FormGroup;
 
-  constructor(private service: ProductsService, private fb: FormBuilder, private _loggerService: LoggerService) {
+  constructor(private service: ProductsService, private fb: FormBuilder, private _loggerService: LoggerService, private store: Store<{products: Product[]}>,) {
     this.form = this.fb.group({
       title: ['', [Validators.required, forbiddenName('test')]],
       price: new FormControl('', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]),
@@ -33,6 +39,9 @@ export class ManagerComponent implements OnInit {
       category: new FormControl('', Validators.required),
       features: this.fb.array([this.fb.control('', Validators.required)])
     })
+
+    this.products$ = this.store.select(selectAllProducts);
+    this.isLoading$ = this.store.select(selectIsProductsLoading);
   }
 
   get features(): FormArray {
@@ -82,6 +91,7 @@ export class ManagerComponent implements OnInit {
         this.service.setProducts(products); // put to service products from API
       })
     }
+    this.store.dispatch(ProductsActions.loadProducts())
   }
 
   protected readonly CompareUsersComponent = CompareUsersComponent;

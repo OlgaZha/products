@@ -23,4 +23,5 @@ export class SortStateService {
       this.setSortState(JSON.parse(localStorageState))
     }
   }
+
 }

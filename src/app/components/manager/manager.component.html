@@ -1,14 +1,15 @@
 <a [routerLink]="['/compare-users']">Compare Users</a>
 
-<div class="card-container">
-  <div *ngFor="let product of products">
-    <div class="product-card">
-      <h1>{{product?.title}}</h1>
-      <p>Price: {{product?.price}}$</p>
-      <button (click)="deleteProduct(product.id)">Delete</button>
-    </div>
-  </div>
-</div>
+<!--<div class="card-container">-->
+<!--  <div *ngFor="let product of products">-->
+<!--    <div class="product-card">-->
+<!--      <h1>{{product?.title}}</h1>-->
+<!--      <p>Price: {{product?.price}}$</p>-->
+<!--      <button (click)="deleteProduct(product.id)">Delete</button>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
 <!--<form #productForm="ngForm" (ngSubmit)="addProduct()" class="productForm">-->
 <!--  <label>Title: </label>-->
 <!--  <input name="productTitle" [(ngModel)]="newProduct.title">-->
@@ -22,6 +23,14 @@
 <!--  <input required name="productCategory" [(ngModel)]="newProduct.category">-->
 <!--  <button type="submit" [disabled]="productForm.invalid">Add product</button>-->
 <!--</form>-->
+
+<ng-template #products>
+  <div *ngFor="let product of products$ | async"> {{product.title}} </div>
+</ng-template>
+
+<div *ngIf="isLoading$ | async; else products">
+  <mat-spinner></mat-spinner>
+</div>
 
 <form [formGroup]="form" (ngSubmit)="addProduct()">
   <label>Title: </label>

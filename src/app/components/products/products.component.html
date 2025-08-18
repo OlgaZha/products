@@ -1,23 +1,26 @@
-<label>Category:
-  <select [formControl]="categoryControl">
-    <option value="" disabled>--choose option--</option>
-    <option [value]="category" *ngFor="let category of categories">{{category}}</option>
-  </select>
-</label>
-
-<input type="number" placeholder="minPrice" [(ngModel)]="minPrice">
-<input type="number" placeholder="maxPrice"  [(ngModel)]="maxPrice">
-<ng-container *ngFor="let product of myProducts | filterByPricePipe:minPrice:maxPrice">
-  <app-product-card [product]="product"></app-product-card>
-</ng-container>
-
-<label></label>
-<input type="text" placeholder="search product by category" [formControl]="searchControl">
-<ul>
-  <li *ngFor="let product of products$ | async" >{{product.title}}</li>
-</ul>
-
-<div class="products-list">
-    <app-product class="products-list__item" *ngFor="let item of myProducts" [product]="item" (cartCounter)="getCounterValue()"></app-product>
+<div class="select-wrapper">
+    <select [formControl]="categoryControl">
+      <option value="" disabled>--choose category--</option>
+      <option [value]="category" *ngFor="let category of categories">{{category}}</option>
+    </select>
 </div>
+
+<div class="input-wrapper">
+  <input type="number" [(ngModel)]="minPrice" placeholder="minPrice">
+  <input type="number" [(ngModel)]="maxPrice" placeholder="maxPrice">
+  <ng-container *ngFor="let product of myProducts | filterByPricePipe:minPrice:maxPrice">
+    <app-product-card [product]="product"></app-product-card>
+  </ng-container>
+  <input type="text" placeholder="search product by category" [formControl]="searchControl">
+  <ul>
+    <li *ngFor="let product of products$ | async" >{{product.title}}</li>
+  </ul>
+</div>
+
+  <div class="products-list">
+    <app-product class="products-list__item" *ngFor="let item of myProducts" [product]="item" (cartCounter)="getCounterValue()"></app-product>
+  </div>
+
+
+
 

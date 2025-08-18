@@ -1,10 +1,11 @@
-import {AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, input, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {MatSort, Sort} from '@angular/material/sort';
 import {SortStateService} from '../../services/sort-state.service';
 import {PageStateService} from '../../services/page-size.service';
 import {PaginatorState} from '../../models/paginatorState.model';
+import {FilterStateService} from '../../services/filter-state.service';
 
 @Component({
   selector: 'app-generic-table',
@@ -18,14 +19,17 @@ export class GenericTableComponent<T> implements AfterViewInit, OnChanges, OnIni
   dataSource = new MatTableDataSource<T>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  @Input() displayedColumns: (keyof T | 'actions')[] = []
+  @Input() displayedColumns: (keyof T | 'actions')[] = [];
+  @Input() filteredColumn!: keyof T;
   currentPageSize = 0;
-  constructor(private sortStateService: SortStateService, private pageSizeService: PageStateService) {
+  id = input<string>();
+  constructor(private sortStateService: SortStateService, private pageSizeService: PageStateService, private filterState: FilterStateService) {
   }
 
   ngOnInit() {
     this.sortStateService.getSortState();
     this.pageSizeService.getPageState();
+    this.filterState.getFilteredState();
   }
 
   ngAfterViewInit() {
@@ -34,6 +38,10 @@ export class GenericTableComponent<T> implements AfterViewInit, OnChanges, OnIni
     this.sortStateService.sortState$.subscribe(state => {
       this.sort.active = state.active;
       this.sort.direction = state.direction;
+    })
+    this.dataSource.filterPredicate = ((data, filterValue) => {
+      let value = (data[this.filteredColumn] ?? '').toString().toLowerCase();
+      return value?.includes(filterValue);
     })
   }
 
@@ -65,6 +73,15 @@ export class GenericTableComponent<T> implements AfterViewInit, OnChanges, OnIni
   onPageChange(event: PageEvent) {
     let pageInfo: PaginatorState = {pageIndex: event.pageIndex, pageSize: event.pageSize};
     this.pageSizeService.setPageState(pageInfo);
+  }
+
+  onFilterChanged(filterValue: string) {
+    this.dataSource.filter = filterValue.toLowerCase();
+    this.filterState.setFilteredState(filterValue);
+  }
+
+  clearLocalStorage () {
+    this.pageSizeService.removeAll()
   }
 
 }

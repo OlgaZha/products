@@ -28,4 +28,8 @@ export class PageStateService {
       this.setPageState(JSON.parse(paginatorState))
     }
   }
+
+  removeAll(): void {
+    localStorage.clear();
+  }
 }

@@ -32,6 +32,11 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {GenericTableComponent} from './components/generic-table/generic-table.component';
+import {StoreModule} from '@ngrx/store';
+import {productsReducer} from './state/products.reducer';
+import {ProductsEffects} from './state/products.effects';
+import {EffectsModule} from '@ngrx/effects';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [AppComponent,
@@ -65,7 +70,12 @@ import {GenericTableComponent} from './components/generic-table/generic-table.co
     MatPaginatorModule,
     MatInputModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatProgressSpinnerModule,
+    StoreModule.forRoot({
+      products: productsReducer
+    }),
+    EffectsModule.forRoot([ProductsEffects]),
   ],
   providers: [ProductsService, {provide: HTTP_INTERCEPTORS, useClass: ProductsAuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
