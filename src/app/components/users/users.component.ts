@@ -12,6 +12,9 @@ import {
 } from 'rxjs';
 import {RxjsOperatorsUtilsService} from '../../services/rxjs-operators-utils.service';
 import {UserSelectionServiceService} from '../../services/user-selection-service.service';
+import {Store} from '@ngrx/store';
+import {selectAllUsers, selectIsLoadingUsers} from '../../state/users.select';
+import * as UsersActions from '../../state/users.actions';
 
 @Component({
   selector: 'app-users',
@@ -20,6 +23,8 @@ import {UserSelectionServiceService} from '../../services/user-selection-service
   standalone: false
 })
 export class UsersComponent implements  OnInit {
+  usersFromStore$: Observable<User[]>;
+  isLoading$: Observable<boolean>;
   companyControl = new FormControl('');
   cityControl = new FormControl('');
   usersControl = new FormControl('')
@@ -42,7 +47,7 @@ export class UsersComponent implements  OnInit {
   refreshUsers$!:  Observable<User[]>;
   filteredUsers$!:Observable<User[]>;
   cachedUsers$!:Observable<User[]>;
-  constructor(private userService: UserService, private fb: FormBuilder, private _loggerService: LoggerService, private _rxjsService: RxjsOperatorsUtilsService, private _selectUser: UserSelectionServiceService) {
+  constructor(private userService: UserService, private fb: FormBuilder, private _loggerService: LoggerService, private _rxjsService: RxjsOperatorsUtilsService, private _selectUser: UserSelectionServiceService, private store: Store<{users: User[]}>) {
     this.form = this.fb.group({
       name: ['', Validators.required],
       username: ['', Validators.required],
@@ -50,6 +55,8 @@ export class UsersComponent implements  OnInit {
       phone: ['', Validators.required],
       jobs: this.fb.array([this.fb.control('', [Validators.required])])
     })
+    this.usersFromStore$ = this.store.select(selectAllUsers);
+    this.isLoading$ = this.store.select(selectIsLoadingUsers);
   }
 
   get jobs(): FormArray {
@@ -115,7 +122,7 @@ export class UsersComponent implements  OnInit {
     this.refreshUsers$ = this.userService.users$;
     this.filteredUsers$ = this.userService.getFilteredUsers()
     this.cachedUsers$ = this.userService.getUsersLazy();
-
+    this.store.dispatch(UsersActions.loadUsers())
     }
   getAllUsers(): void {
     this.userService.loadAllUsers().subscribe(users => {

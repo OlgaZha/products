@@ -13,9 +13,18 @@
 <!--  <app-user [user]="filteredUser"></app-user>-->
 <!--</div>-->
 
-<button (click)="cachedUsers()">Cache users</button>
-<div *ngFor="let user of cachedUsers$|async">
-  <p>{{user.name}}</p>
+<!--!!!!!!!!!!-->
+<!--<button (click)="cachedUsers()">Cache users</button>-->
+<!--<div *ngFor="let user of cachedUsers$|async">-->
+<!--  <p>{{user.name}}</p>-->
+<!--</div>-->
+
+<ng-template #users>
+  <div *ngFor="let user of usersFromStore$ | async">{{user.name}}</div>
+</ng-template>
+
+<div *ngIf="isLoading$ | async; else users">
+  <mat-spinner></mat-spinner>
 </div>
 
 <!--<input placeholder="Search user" (input)="onSearch($event)">-->
