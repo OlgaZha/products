@@ -37,6 +37,8 @@ import {productsReducer} from './state/products.reducer';
 import {ProductsEffects} from './state/products.effects';
 import {EffectsModule} from '@ngrx/effects';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {userReducer} from './state/users.reducer';
+import {UsersEffects} from './state/users.effects';
 
 @NgModule({
   declarations: [AppComponent,
@@ -76,7 +78,12 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
       products: productsReducer
     }),
     EffectsModule.forRoot([ProductsEffects]),
+    StoreModule.forRoot({
+      users: userReducer
+    }),
+    EffectsModule.forRoot([UsersEffects]),
   ],
+
   providers: [ProductsService, {provide: HTTP_INTERCEPTORS, useClass: ProductsAuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })

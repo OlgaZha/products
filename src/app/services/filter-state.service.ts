@@ -10,17 +10,24 @@ export class FilterStateService {
   filterState$ = this.filterState.asObservable();
   localStorageFilterName = 'matTableFilterKey';
 
-  constructor() { }
+  constructor() {
+    let localStorageState = localStorage.getItem(this.localStorageFilterName);
+      if(localStorageState) {
+        this.filterState.next(localStorageState);
+      }
+  }
+
+  getFilteredState(): string {
+    return JSON.parse(localStorage.getItem(this.localStorageFilterName) ?? '');
+  }
 
   setFilteredState(filter: string) {
+    console.log('filter',  filter);
     this.filterState.next(filter);
     localStorage.setItem(this.localStorageFilterName, JSON.stringify(filter));
   }
 
-  getFilteredState() {
-    let localStorageState = localStorage.getItem(this.localStorageFilterName);
-    if(localStorageState) {
-      this.setFilteredState(JSON.parse(localStorageState))
-    }
+  removeFilterFromLocalStorage() {
+    localStorage.removeItem(this.localStorageFilterName);
   }
 }

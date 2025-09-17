@@ -22,14 +22,13 @@ export class GenericTableComponent<T> implements AfterViewInit, OnChanges, OnIni
   @Input() displayedColumns: (keyof T | 'actions')[] = [];
   @Input() filteredColumn!: keyof T;
   currentPageSize = 0;
-  id = input<string>();
-  constructor(private sortStateService: SortStateService, private pageSizeService: PageStateService, private filterState: FilterStateService) {
+  constructor(private sortStateService: SortStateService, private pageSizeService: PageStateService, private filterStateService: FilterStateService) {
   }
 
   ngOnInit() {
     this.sortStateService.getSortState();
     this.pageSizeService.getPageState();
-    this.filterState.getFilteredState();
+    this.filterStateService.filterState$.subscribe(filterState => this.dataSource.filter = filterState);
   }
 
   ngAfterViewInit() {
@@ -39,20 +38,23 @@ export class GenericTableComponent<T> implements AfterViewInit, OnChanges, OnIni
       this.sort.active = state.active;
       this.sort.direction = state.direction;
     })
-    this.dataSource.filterPredicate = ((data, filterValue) => {
-      let value = (data[this.filteredColumn] ?? '').toString().toLowerCase();
-      return value?.includes(filterValue);
-    })
+    this.applyPaginatorState();
+    // this.dataSource.filterPredicate = ((data, filterValue) => {
+    //   let value = (data[this.filteredColumn] ?? '').toString().toLowerCase();
+    //   return value?.includes(filterValue);
+    // })
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if(changes['data'] !== null) {
+    if(changes['data'] && this.data?.length) {
       this.dataSource.data = this.data;
+      this.onFilterChanged(this.filterStateService.getFilteredState())
     }
-    this.pageSizeService.pageState$.subscribe(pageState => {
-      this.paginator.pageSize = pageState.pageSize;
-      this.paginator.pageIndex = pageState.pageIndex;
-    })
+    this.applyPaginatorState();
+    // this.pageSizeService.pageState$.subscribe(pageState => {
+    //   this.paginator.pageSize = pageState.pageSize;
+    //   this.paginator.pageIndex = pageState.pageIndex;
+    // })
   }
 
   get columnsToStringName(): string[] {
@@ -77,11 +79,23 @@ export class GenericTableComponent<T> implements AfterViewInit, OnChanges, OnIni
 
   onFilterChanged(filterValue: string) {
     this.dataSource.filter = filterValue.toLowerCase();
-    this.filterState.setFilteredState(filterValue);
+    this.filterStateService.setFilteredState(filterValue);
+  }
+
+  private applyPaginatorState() {
+    setTimeout(() =>
+      this.pageSizeService.pageState$.subscribe(page => {
+        this.paginator.pageSize = page.pageSize;
+        this.paginator.pageIndex = page.pageIndex;
+        this.dataSource._updateChangeSubscription();
+      })
+    )
   }
 
   clearLocalStorage () {
-    this.pageSizeService.removeAll()
+    this.pageSizeService.removePaginatorFromLocalStorage();
+    this.filterStateService.removeFilterFromLocalStorage();
+    this.sortStateService.removeSortingFromLocalStorage();
   }
 
 }

@@ -1,6 +1,6 @@
 <app-table-filter (filterChanged)="onFilterChanged($event)"></app-table-filter>
 <button (click)="clearLocalStorage()">Clear Local Storage</button>
-<table mat-table [dataSource]="dataSource" (matSortChange)="sortMat($event)" matSort>
+<table mat-table [dataSource]="dataSource" (matSortChange)="sortMat($event)" matSort class="custom-mat-table">
 <!--  creating dynamic columns -->
   <ng-container *ngFor="let column of columnsToStringName" [matColumnDef]="column">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>{{column}}</th>

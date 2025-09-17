@@ -35,6 +35,6 @@
 
 <!--<mat-paginator [pageSizeOptions]="[5,10,20]" showFirstLastButtons (page)="onPageChange($event)"></mat-paginator>-->
 
-<app-generic-table [data]="users" [columns]="['id', 'name', 'email']" [displayedColumns]="['id', 'name', 'email', 'actions']">
+<app-generic-table [data]="users" [columns]="['id', 'name', 'email']" [displayedColumns]="['id', 'name', 'email', 'actions']" [filteredColumn]="'name'">
 
 </app-generic-table>

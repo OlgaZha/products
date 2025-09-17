@@ -24,4 +24,8 @@ export class SortStateService {
     }
   }
 
+  removeSortingFromLocalStorage() {
+    localStorage.removeItem(this.localStorageSortName);
+  }
+
 }

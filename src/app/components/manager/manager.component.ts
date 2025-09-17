@@ -30,7 +30,7 @@ export class ManagerComponent implements OnInit {
   defaultId = 1;
   form: FormGroup;
 
-  constructor(private service: ProductsService, private fb: FormBuilder, private _loggerService: LoggerService, private store: Store<{products: Product[]}>,) {
+  constructor(private service: ProductsService, private fb: FormBuilder, private _loggerService: LoggerService, private store: Store<{products: Product[]}>) {
     this.form = this.fb.group({
       title: ['', [Validators.required, forbiddenName('test')]],
       price: new FormControl('', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]),

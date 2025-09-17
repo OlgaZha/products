@@ -43,8 +43,8 @@ export class UsersTableComponent implements OnInit, AfterViewInit {
       return value?.includes(filterValue);
       })
     this.sortStateService.sortState$.subscribe(state => {
-      this.sort.active = state.active;
-      this.sort.direction = state.direction;
+      // this.sort.active = state.active;
+      // this.sort.direction = state.direction;
     })
   }
 

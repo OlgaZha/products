@@ -90,38 +90,38 @@ export class UsersComponent implements  OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllUsers()
-    this.companyControl.setValue('', { emitEvent: true });
-    this.cityControl.setValue('', { emitEvent: true });
-    this.users$ = this.userService.loadAllUsers();
-    this.companies$ = this.users$.pipe(
-      map(users => [...new Set(users.map(user => user.company?.name))])
-    )
-    this.cities$ = this.users$.pipe(
-      map(users => [...new Set(users.map(user => user.address?.city))])
-    )
-    this._rxjsService.getFullName(this.users$);
-    this._rxjsService.useMergeMap();
-    this._rxjsService.compareUsers(1,2);
-    this.searchControl.valueChanges.pipe(
-      filter((searchValue: string | null) => !!searchValue && searchValue.length > 2),
-      debounceTime(300),
-      distinctUntilChanged(),
-      map((searchValue: string) => {
-        if(!searchValue && searchValue?.length < 3) {
-          return this.users;
-        }
-        const filteredValue =  this.users.filter(user => user.name.toLowerCase().includes(searchValue))
-        return filteredValue.length > 0 ? filteredValue : []
-      }),
-    ).subscribe((results: any[]) => {
-      this.filteredUsers = results;
-    })
-
-    this._selectUser.selectedUser$.subscribe(selectedUser => this.selectedUser = selectedUser)
-    this.refreshUsers$ = this.userService.users$;
-    this.filteredUsers$ = this.userService.getFilteredUsers()
-    this.cachedUsers$ = this.userService.getUsersLazy();
+    // this.getAllUsers()
+    // this.companyControl.setValue('', { emitEvent: true });
+    // this.cityControl.setValue('', { emitEvent: true });
+    // this.users$ = this.userService.loadAllUsers();
+    // this.companies$ = this.users$.pipe(
+    //   map(users => [...new Set(users.map(user => user.company?.name))])
+    // )
+    // this.cities$ = this.users$.pipe(
+    //   map(users => [...new Set(users.map(user => user.address?.city))])
+    // )
+    // this._rxjsService.getFullName(this.users$);
+    // this._rxjsService.useMergeMap();
+    // this._rxjsService.compareUsers(1,2);
+    // this.searchControl.valueChanges.pipe(
+    //   filter((searchValue: string | null) => !!searchValue && searchValue.length > 2),
+    //   debounceTime(300),
+    //   distinctUntilChanged(),
+    //   map((searchValue: string) => {
+    //     if(!searchValue && searchValue?.length < 3) {
+    //       return this.users;
+    //     }
+    //     const filteredValue =  this.users.filter(user => user.name.toLowerCase().includes(searchValue))
+    //     return filteredValue.length > 0 ? filteredValue : []
+    //   }),
+    // ).subscribe((results: any[]) => {
+    //   this.filteredUsers = results;
+    // })
+    //
+    // this._selectUser.selectedUser$.subscribe(selectedUser => this.selectedUser = selectedUser)
+    // this.refreshUsers$ = this.userService.users$;
+    // this.filteredUsers$ = this.userService.getFilteredUsers()
+    // this.cachedUsers$ = this.userService.getUsersLazy();
     this.store.dispatch(UsersActions.loadUsers())
     }
   getAllUsers(): void {

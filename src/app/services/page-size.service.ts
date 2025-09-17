@@ -25,11 +25,11 @@ export class PageStateService {
   getPageState() {
     let paginatorState = localStorage.getItem(this.localStoragePaginatorName);
     if(paginatorState) {
-      this.setPageState(JSON.parse(paginatorState))
+      this.pageState.next(JSON.parse(paginatorState))
     }
   }
 
-  removeAll(): void {
-    localStorage.clear();
+  removePaginatorFromLocalStorage(): void {
+    localStorage.removeItem(this.localStoragePaginatorName);
   }
 }

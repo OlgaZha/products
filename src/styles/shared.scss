@@ -1,0 +1,9 @@
+@import './variables.scss';
+.custom-mat-table {
+  .mat-mdc-cell {
+    font-size: $cell-font-size;
+    color: $cell-text-color;
+    padding: $cell-padding;
+    border-bottom: 1px solid $cell-border-color;
+  }
+}
